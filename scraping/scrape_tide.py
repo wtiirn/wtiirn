@@ -25,7 +25,7 @@ MONTHS = [
     "December",
 ]
 
-TZINFO = datetime.timezone(offset=datetime.timedelta(hours=8), name="PST")
+TZINFO = datetime.timezone(offset=datetime.timedelta(hours=-8), name="PST")
 
 
 def parse_row(rw, month: str, year: int) -> TidePrediction:
