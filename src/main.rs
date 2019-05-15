@@ -3,9 +3,13 @@ use simple_server::{Method, Server, StatusCode};
 
 mod model;
 
+static PREDICTIONS_SRC: &'static str = include_str!("predictions.json");
+
 fn main() {
     let host = "127.0.0.1";
     let port = "7878";
+
+    let _predictions = parse_predictions(PREDICTIONS_SRC);
 
     println!("WTIIRN booting up!");
     let server = Server::new(|request, mut response| {
@@ -39,4 +43,14 @@ fn home_page() -> String {
 
 fn not_found_page() -> String {
     "<html><h1>404</h1><p>Not found!<p></html>".to_string()
+}
+
+fn parse_predictions(src: &str) -> Vec<model::TidePrediction> {
+    use serde_json;
+    serde_json::from_str(src).expect("Failure to parse included predictions.json")
+}
+
+#[test]
+fn test_parsing_predictions_file() {
+    parse_predictions(PREDICTIONS_SRC);
 }
