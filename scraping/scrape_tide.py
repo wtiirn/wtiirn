@@ -25,24 +25,24 @@ MONTHS = [
     "December",
 ]
 
+TZINFO = datetime.timezone(offset=datetime.timedelta(hours=8), name="PST")
+
 
 def parse_row(rw, month: str, year: int) -> TidePrediction:
     day_src, time_src, tide_src = [c.get_text() for c in rw.find_all("td")]
     tide = float(tide_src)
     time = datetime.datetime.strptime(time_src, "%I:%M %p").time()
     day = int(day_src)
-    month = MONTHS.index(month)+1
+    month = MONTHS.index(month) + 1
     date = datetime.datetime(
         year=year,
         month=month,
         day=day,
         hour=time.hour,
-        minute=time.minute
+        minute=time.minute,
+        tzinfo=TZINFO,
     )
-    return TidePrediction(
-        date=date,
-        tide=tide,
-    )
+    return TidePrediction(date=date, tide=tide)
 
 
 def parse_table(tbl) -> ty.Tuple[str, ty.Iterable[TidePrediction]]:
