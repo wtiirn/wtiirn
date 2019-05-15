@@ -9,14 +9,14 @@ fn main() {
     let host = "127.0.0.1";
     let port = "7878";
 
-    let _predictions = parse_predictions(PREDICTIONS_SRC);
+    let predictions = parse_predictions(PREDICTIONS_SRC);
 
     println!("WTIIRN booting up!");
-    let server = Server::new(|request, mut response| {
+    let server = Server::new(move |request, mut response| {
         println!("Request received. {} {}", request.method(), request.uri());
 
         match (request.method(), request.uri().path()) {
-            (&Method::GET, "/") => Ok(response.body(home_page().as_bytes().to_vec())?),
+            (&Method::GET, "/") => Ok(response.body(home_page(&predictions).as_bytes().to_vec())?),
             (_, _) => {
                 response.status(StatusCode::NOT_FOUND);
                 Ok(response.body(not_found_page().as_bytes().to_vec())?)
@@ -28,17 +28,22 @@ fn main() {
     server.listen(host, port);
 }
 
-fn home_page() -> String {
-    let tide = model::TidePrediction {
-        tide: 0.5,
-        time: FixedOffset::west(8 * 3600)
-            .ymd(2019, 05, 14)
-            .and_hms(0, 0, 0),
-    };
+fn home_page(predictions: &[model::TidePrediction]) -> String {
+    let time = now_in_pst();
+    let tide = model::find_nearest_prediction(&predictions, time);
     format!(
-        "<html><h1>What Tide Is It Right Now?!</h1><p>{:?}!</p></html>",
+        "<html><h1>What Tide Is It Right Now?!</h1>
+        <p>It is currently {}</p>
+        <p>The nearest available tide prediction from Point Atkinson is:</p>
+        <p>{:?}!</p></html>",
+        time.to_rfc2822(),
         tide
     )
+}
+
+fn now_in_pst() -> DateTime<FixedOffset> {
+    let pst = FixedOffset::west(8 * 3600);
+    Local::now().with_timezone(&pst)
 }
 
 fn not_found_page() -> String {
