@@ -1,4 +1,7 @@
+use chrono::prelude::*;
 use simple_server::{Method, Server, StatusCode};
+
+mod model;
 
 fn main() {
     let host = "127.0.0.1";
@@ -22,7 +25,16 @@ fn main() {
 }
 
 fn home_page() -> String {
-    "<html><h1>Hi!</h1><p>Hello Rust!</p></html>".to_string()
+    let tide = model::TidePrediction {
+        tide: 0.5,
+        time: FixedOffset::west(8 * 3600)
+            .ymd(2019, 05, 14)
+            .and_hms(0, 0, 0),
+    };
+    format!(
+        "<html><h1>What Tide Is It Right Now?!</h1><p>{:?}!</p></html>",
+        tide
+    )
 }
 
 fn not_found_page() -> String {
