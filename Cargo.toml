@@ -1,0 +1,7 @@
+[package]
+name = "wtiirn"
+version = "0.1.0"
+authors = ["Dorian Scheidt <dorian.scheidt@gmail.com>"]
+edition = "2018"
+
+[dependencies]
