@@ -4,6 +4,7 @@ use chrono::prelude::*;
 use simple_server::{Method, Server, StatusCode};
 
 mod model;
+mod compute;
 
 static PREDICTIONS_SRC: &'static str = include_str!("predictions.json");
 
@@ -32,14 +33,18 @@ fn main() {
 
 fn home_page(predictions: &[model::TidePrediction]) -> String {
     let time = now_in_pst();
-    let tide = model::find_nearest_prediction(&predictions, time);
+    let tide = compute::find_nearest_prediction(&predictions, time);
+    let pair = compute::find_nearest_pair(&predictions, time);
     format!(
         "<html><h1>What Tide Is It Right Now?!</h1>
         <p>It is currently {}</p>
         <p>The nearest available tide prediction from Point Atkinson is:</p>
-        <p>{:?}!</p></html>",
-        time.to_rfc2822(),
-        tide
+        <p>{:?}!</p>
+        <p>{}</p>
+        </html>",
+        time.format(model::TIME_FORMAT),
+        tide,
+        pair
     )
 }
 

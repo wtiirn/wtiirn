@@ -1,5 +1,8 @@
 use chrono::prelude::*;
 use serde::Deserialize;
+use std::fmt;
+
+pub static TIME_FORMAT: &str = "%I:%M%P on %a %b %e, %Y";
 
 #[derive(Debug, PartialEq, Clone, Copy, Deserialize)]
 pub struct TidePrediction {
@@ -7,67 +10,45 @@ pub struct TidePrediction {
     pub time: DateTime<FixedOffset>,
 }
 
-pub fn find_nearest_prediction(
-    tides: &[TidePrediction],
-    time: DateTime<FixedOffset>,
-) -> Option<TidePrediction> {
-    let mut deltas: Vec<_> = tides.into();
-    deltas.sort_by_key(|x| (x.time.timestamp() - time.timestamp()).abs());
-    deltas.first().cloned()
-}
-
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    #[test]
-    fn it_returns_a_matching_prediction() {
-        let time = FixedOffset::west(8 * 3600)
-            .ymd(2019, 05, 14)
-            .and_hms(0, 0, 0);
-
-        let tide = TidePrediction { tide: 0.5, time };
-
-        let tides = vec![tide];
-
-        let found = find_nearest_prediction(&tides, time);
-        assert_eq!(found, Some(tide));
-    }
-
-    #[test]
-    fn it_returns_the_nearest_prediction() {
-        let time1 = FixedOffset::west(8 * 3600)
-            .ymd(2019, 05, 14)
-            .and_hms(0, 0, 0);
-
-        let time2 = FixedOffset::west(8 * 3600)
-            .ymd(2019, 05, 14)
-            .and_hms(1, 0, 0);
-
-        let time3 = FixedOffset::west(8 * 3600)
-            .ymd(2019, 05, 18)
-            .and_hms(0, 0, 0);
-
-        let tide1 = TidePrediction {
-            tide: 1.0,
-            time: time1,
-        };
-        let tide2 = TidePrediction {
-            tide: 2.0,
-            time: time2,
-        };
-        let tide3 = TidePrediction {
-            tide: 3.0,
-            time: time3,
-        };
-
-        let tides = vec![tide1, tide2, tide3];
-
-        let test_time = FixedOffset::west(8 * 3600)
-            .ymd(2019, 05, 14)
-            .and_hms(0, 59, 0);
-
-        let found = find_nearest_prediction(&tides, test_time);
-        assert_eq!(found, Some(tide2));
+impl fmt::Display for TidePrediction {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "{} meters above the datum at {}",
+            self.tide,
+            self.time.format(TIME_FORMAT)
+        )
     }
 }
+
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub struct TidePredictionPair {
+    pub next: Option<TidePrediction>,
+    pub prev: Option<TidePrediction>,
+}
+
+impl fmt::Display for TidePredictionPair {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match (self.next, self.prev) {
+            (None, _) | (_, None) => write!(f, "Incomplete pair! {:?}", self),
+            (Some(n), Some(p)) => print_pair(f, n, p),
+        }
+    }
+}
+
+fn print_pair(f: &mut fmt::Formatter, n: TidePrediction, p: TidePrediction) -> fmt::Result {
+    if n.tide > p.tide {
+        write!(
+            f,
+            "The tide is coming in! Low tide was {}, High tide will be {}",
+            p, n
+        )
+    } else {
+        write!(
+            f,
+            "The tide is going out! High tide was {}, Low tide will be {}",
+            p, n
+        )
+    }
+}
+
