@@ -1,24 +1,26 @@
-use chrono::prelude::*;
 use crate::model::{TidePrediction, TidePredictionPair};
+use chrono::prelude::*;
+use itertools::Itertools;
 
 pub fn find_nearest_prediction(
     tides: &[TidePrediction],
     time: DateTime<FixedOffset>,
 ) -> Option<TidePrediction> {
-    let mut deltas: Vec<_> = tides.into();
-    deltas.sort_by_key(|x| (x.time.timestamp() - time.timestamp()).abs());
-    deltas.first().cloned()
+    tides
+        .iter()
+        .sorted_by_key(|x| x.delta_from(time).abs())
+        .next()
+        .cloned()
 }
 
 pub fn find_nearest_pair(
     tides: &[TidePrediction],
     time: DateTime<FixedOffset>,
 ) -> TidePredictionPair {
-    let mut deltas: Vec<_> = tides.into();
-    deltas.sort_by_key(|x| x.time.timestamp() - time.timestamp());
-    let (after, before): (Vec<_>, Vec<_>) = deltas
-        .into_iter()
-        .partition(|x| x.time.timestamp() - time.timestamp() >= 0);
+    let (before, after): (Vec<_>, Vec<_>) = tides
+        .iter()
+        .sorted_by_key(|x| x.time)
+        .partition(|x| x.is_before(time));
 
     TidePredictionPair {
         next: after.first().cloned(),
@@ -85,13 +87,9 @@ mod test {
     fn it_finds_the_nearest_pair() {
         let pst = FixedOffset::west(8 * 3600);
         let time1 = pst.ymd(2019, 05, 14).and_hms(0, 0, 0);
-
         let time2 = pst.ymd(2019, 05, 14).and_hms(1, 0, 0);
-
         let time3 = pst.ymd(2019, 05, 18).and_hms(0, 0, 0);
-
         let time4 = pst.ymd(2019, 05, 18).and_hms(1, 0, 0);
-
         let tide1 = TidePrediction {
             tide: 1.0,
             time: time1,

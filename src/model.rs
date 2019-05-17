@@ -10,6 +10,16 @@ pub struct TidePrediction {
     pub time: DateTime<FixedOffset>,
 }
 
+impl TidePrediction {
+    pub fn delta_from(&self, time: DateTime<FixedOffset>) -> i64 {
+        self.time.timestamp() - time.timestamp()
+    }
+
+    pub fn is_before(&self, time: DateTime<FixedOffset>) -> bool {
+        self.time < time
+    }
+}
+
 impl fmt::Display for TidePrediction {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
@@ -51,4 +61,3 @@ fn print_pair(f: &mut fmt::Formatter, n: TidePrediction, p: TidePrediction) -> f
         )
     }
 }
-

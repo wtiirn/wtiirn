@@ -1,8 +1,8 @@
 use chrono::prelude::*;
 use simple_server::{Method, Server, StatusCode};
 
-mod model;
 mod compute;
+mod model;
 
 static PREDICTIONS_SRC: &'static str = include_str!("predictions.json");
 
