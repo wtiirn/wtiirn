@@ -9,7 +9,7 @@ static PREDICTIONS_SRC: &'static str = include_str!("predictions.json");
 
 fn main() {
     let host = env::var("WTIIRN_HOST").unwrap_or("127.0.0.1".to_string());
-    let port = env::var("WTIIRN_PORT").unwrap_or("7878".to_string());
+    let port = env::var("PORT").unwrap_or("7878".to_string());
 
     let predictions = parse_predictions(PREDICTIONS_SRC);
 
