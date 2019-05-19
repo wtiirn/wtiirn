@@ -5,6 +5,8 @@
   "success_url": "/",
   "keywords": ["rust"],
   "env": {
-    "BUILDPACK_URL": "https://github.com/emk/heroku-buildpack-rust.git"
+    "BUILDPACK_URL": "https://github.com/emk/heroku-buildpack-rust.git",
+    "WTIIRN_HOST": "",
+    "WTIIRN_PORT": 80
   }
 }

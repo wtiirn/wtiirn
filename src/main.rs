@@ -1,3 +1,5 @@
+use std::env;
+
 use chrono::prelude::*;
 use simple_server::{Method, Server, StatusCode};
 
@@ -6,8 +8,8 @@ mod model;
 static PREDICTIONS_SRC: &'static str = include_str!("predictions.json");
 
 fn main() {
-    let host = "127.0.0.1";
-    let port = "7878";
+    let host = env::var("WTIIRN_HOST").unwrap_or("127.0.0.1".to_string());
+    let port = env::var("WTIIRN_PORT").unwrap_or("7878".to_string());
 
     let predictions = parse_predictions(PREDICTIONS_SRC);
 
@@ -25,7 +27,7 @@ fn main() {
     });
 
     println!("Server listening on port: {}", port);
-    server.listen(host, port);
+    server.listen(&host, &port);
 }
 
 fn home_page(predictions: &[model::TidePrediction]) -> String {
