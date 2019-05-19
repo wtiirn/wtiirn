@@ -1,0 +1,10 @@
+{
+  "name": "What Tide is it Right Now?",
+  "description": "For when you need to know what tide it is right now.",
+  "repository": "https://github.com/neganp/wtiirn",
+  "success_url": "/",
+  "keywords": ["rust"],
+  "env": {
+    "BUILDPACK_URL": "https://github.com/emk/heroku-buildpack-rust.git"
+  }
+}
