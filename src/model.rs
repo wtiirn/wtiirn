@@ -47,17 +47,37 @@ impl fmt::Display for TidePredictionPair {
 }
 
 fn print_pair(f: &mut fmt::Formatter, n: TidePrediction, p: TidePrediction) -> fmt::Result {
+    write!(f, "{}", headline(n, p) + " " + &detail(n, p))
+}
+
+impl TidePredictionPair {
+    pub fn headline(&self) -> String {
+        match (self.next, self.prev) {
+            (None, _) | (_, None) => format!("Incomplete pair! {:?}", self),
+            (Some(n), Some(p)) => headline(n, p),
+        }
+    }
+
+    pub fn detail(&self) -> String {
+        match (self.next, self.prev) {
+            (None, _) | (_, None) => format!("Incomplete pair! {:?}", self),
+            (Some(n), Some(p)) => detail(n, p),
+        }
+    }
+}
+
+fn headline(n: TidePrediction, p: TidePrediction) -> String {
     if n.tide > p.tide {
-        write!(
-            f,
-            "The tide is coming in! Low tide was {}, High tide will be {}",
-            p, n
-        )
+        "The tide is coming in!".into()
     } else {
-        write!(
-            f,
-            "The tide is going out! High tide was {}, Low tide will be {}",
-            p, n
-        )
+        "The tide is going out!".into()
+    }
+}
+
+fn detail(n: TidePrediction, p: TidePrediction) -> String {
+    if n.tide > p.tide {
+        format!("Low tide was {}, High tide will be {}", p, n)
+    } else {
+        format!("High tide was {}, Low tide will be {}", p, n)
     }
 }
