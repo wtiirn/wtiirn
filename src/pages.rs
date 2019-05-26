@@ -26,6 +26,7 @@ pub fn home_page(predictions: &[model::TidePrediction]) -> String {
                         </div>
                     </div>
                 </div>
+                <script src='getlocation.js'></script>
             </body>
         </html>",
         pair.headline(),
