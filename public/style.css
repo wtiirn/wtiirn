@@ -1,3 +1,5 @@
+html { font-size: calc(1em + 1vw) }
+
 body {
   background-color: #3280b5;
 }
@@ -22,14 +24,15 @@ body {
 }
 
 .title h1 {
-  font-size: 20px;
+  font-size: 1.2em;
 }
 
 .headline h2 {
-  font-size: 50px;
+  font-size: 3em;
 }
 
 .detail {
   font-style: italic;
+  font-size: 0.8em;
 }
 
