@@ -5,7 +5,11 @@ use crate::model;
 
 pub fn home_page(predictions: &[model::TidePrediction]) -> String {
     let time = now_in_pst();
-    let pair = compute::find_nearest_pair(&predictions, time);
+    let pair = compute::find::nearest_pair(&predictions, time);
+    let (headline, detail) = match pair {
+        Some(p) => (p.headline(), p.detail()),
+        _ => ("No Tide Information".into(), "".into())
+    };
     format!(
         "<html>
             <head>
@@ -29,8 +33,8 @@ pub fn home_page(predictions: &[model::TidePrediction]) -> String {
                 <script src='getlocation.js'></script>
             </body>
         </html>",
-        pair.headline(),
-        pair.detail()
+        headline,
+        detail,
     )
 }
 

@@ -29,16 +29,13 @@ impl fmt::Display for TidePrediction {
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct TidePredictionPair {
-    pub next: Option<TidePrediction>,
-    pub prev: Option<TidePrediction>,
+    pub next: TidePrediction,
+    pub prev: TidePrediction,
 }
 
 impl fmt::Display for TidePredictionPair {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match (self.next, self.prev) {
-            (None, _) | (_, None) => write!(f, "Incomplete pair! {:?}", self),
-            (Some(n), Some(p)) => print_pair(f, n, p),
-        }
+        print_pair(f, self.next, self.prev)
     }
 }
 
@@ -48,17 +45,11 @@ fn print_pair(f: &mut fmt::Formatter, n: TidePrediction, p: TidePrediction) -> f
 
 impl TidePredictionPair {
     pub fn headline(&self) -> String {
-        match (self.next, self.prev) {
-            (None, _) | (_, None) => format!("Incomplete pair! {:?}", self),
-            (Some(n), Some(p)) => headline(n, p),
-        }
+        headline(self.next, self.prev)
     }
 
     pub fn detail(&self) -> String {
-        match (self.next, self.prev) {
-            (None, _) | (_, None) => format!("Incomplete pair! {:?}", self),
-            (Some(n), Some(p)) => detail(n, p),
-        }
+        detail(self.next, self.prev)
     }
 }
 
