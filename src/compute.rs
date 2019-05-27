@@ -2,6 +2,8 @@ use chrono::prelude::*;
 use crate::model::{TidePrediction, TidePredictionPair};
 use itertools::Itertools;
 
+mod gcd;
+
 pub fn find_nearest_pair(
     tides: &[TidePrediction],
     time: DateTime<FixedOffset>,
