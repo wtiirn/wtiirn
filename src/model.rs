@@ -11,10 +11,6 @@ pub struct TidePrediction {
 }
 
 impl TidePrediction {
-    pub fn delta_from(&self, time: DateTime<FixedOffset>) -> i64 {
-        self.time.timestamp() - time.timestamp()
-    }
-
     pub fn is_before(&self, time: DateTime<FixedOffset>) -> bool {
         self.time < time
     }
