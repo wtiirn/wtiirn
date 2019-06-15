@@ -1,6 +1,8 @@
 use crate::model::{TidePrediction, TidePredictionPair};
 use chrono::prelude::*;
 use itertools::Itertools;
+use uom::si::f64::*;
+use uom::si::length::meter;
 
 pub fn nearest_pair(
     tides: &[TidePrediction],
@@ -29,19 +31,19 @@ mod test {
         let time3 = pst.ymd(2019, 05, 18).and_hms(0, 0, 0);
         let time4 = pst.ymd(2019, 05, 18).and_hms(1, 0, 0);
         let tide1 = TidePrediction {
-            tide: 1.0,
+            tide: Length::new::<meter>(1.0),
             time: time1,
         };
         let tide2 = TidePrediction {
-            tide: 2.0,
+            tide: Length::new::<meter>(2.0),
             time: time2,
         };
         let tide3 = TidePrediction {
-            tide: 3.0,
+            tide: Length::new::<meter>(3.0),
             time: time3,
         };
         let tide4 = TidePrediction {
-            tide: 4.0,
+            tide: Length::new::<meter>(4.0),
             time: time4,
         };
 
