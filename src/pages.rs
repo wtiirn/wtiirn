@@ -1,4 +1,6 @@
 use chrono::prelude::*;
+use uom::si::f64::*;
+use uom::si::length::{kilometer, meter};
 
 use crate::compute;
 use crate::model::{Coordinates, TidePrediction};
@@ -18,7 +20,7 @@ pub fn home_page(predictions: &[TidePrediction], current_location: &Option<Coord
     };
 
     let distance = match current_location {
-        None => 0.0,
+        None => Length::new::<meter>(0.0),
         Some(c) => compute::gcd::great_circle_distance(c, &POINT_ATKINSON),
     };
 
@@ -40,14 +42,17 @@ pub fn home_page(predictions: &[TidePrediction], current_location: &Option<Coord
                         <div class='detail'>
                             <p>{}</p>
                             <p>{:?}</p>
-                            <p>{:?}</p>
+                            <p>{}</p>
                         </div>
                     </div>
                 </div>
                 <script src='getlocation.js'></script>
             </body>
         </html>",
-        headline, detail, current_location, distance
+        headline,
+        detail,
+        current_location,
+        distance.get::<kilometer>()
     )
 }
 
