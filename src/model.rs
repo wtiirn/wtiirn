@@ -2,12 +2,14 @@ use chrono::prelude::*;
 use serde::Deserialize;
 use std::convert::TryFrom;
 use std::fmt;
+use uom::si::f64::*;
+use uom::si::length::meter;
 
 pub static TIME_FORMAT: &str = "%I:%M%P on %a %b %e, %Y";
 
 #[derive(Debug, PartialEq, Clone, Copy, Deserialize)]
 pub struct TidePrediction {
-    pub tide: f32,
+    pub tide: Length,
     pub time: DateTime<FixedOffset>,
 }
 
@@ -22,7 +24,7 @@ impl fmt::Display for TidePrediction {
         write!(
             f,
             "{} meters above the datum at {}",
-            self.tide,
+            self.tide.get::<meter>(),
             self.time.format(TIME_FORMAT)
         )
     }
