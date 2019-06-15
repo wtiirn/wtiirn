@@ -1,5 +1,6 @@
 use chrono::prelude::*;
 use serde::Deserialize;
+use std::convert::TryFrom;
 use std::fmt;
 
 pub static TIME_FORMAT: &str = "%I:%M%P on %a %b %e, %Y";
@@ -85,3 +86,52 @@ impl Coordinates {
     }
 }
 
+impl TryFrom<Option<&str>> for Coordinates {
+    type Error = ();
+    fn try_from(st: Option<&str>) -> Result<Coordinates, ()> {
+        match st {
+            Some(s) => Coordinates::try_from(s),
+            _ => Err(()),
+        }
+    }
+}
+
+impl TryFrom<&str> for Coordinates {
+    type Error = ();
+    fn try_from(s: &str) -> Result<Coordinates, ()> {
+        let mut maybe_lat = None;
+        let mut maybe_lon = None;
+        let tuples = s
+            .split("&")
+            .map(|x| (x.split("=").next(), x.split("=").last()));
+
+        for (name, value) in tuples {
+            match (name, value) {
+                (Some(n), Some(v)) if n == "lat" => maybe_lat = v.parse::<f64>().ok(),
+                (Some(n), Some(v)) if n == "lon" => maybe_lon = v.parse::<f64>().ok(),
+                _ => (),
+            }
+        }
+
+        match (maybe_lat, maybe_lon) {
+            (Some(lat), Some(lon)) => Ok(Coordinates { lat, lon }),
+            _ => Err(()),
+        }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn parse_from_a_string() {
+        assert_eq!(
+            Coordinates::try_from(Some("lat=123.456&lon=54.321")),
+            Ok(Coordinates {
+                lat: 123.456,
+                lon: 54.321
+            })
+        );
+    }
+}

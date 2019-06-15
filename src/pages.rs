@@ -1,15 +1,27 @@
 use chrono::prelude::*;
 
 use crate::compute;
-use crate::model;
+use crate::model::{Coordinates, TidePrediction};
 
-pub fn home_page(predictions: &[model::TidePrediction]) -> String {
+static POINT_ATKINSON: Coordinates = Coordinates {
+    lat: 49.3299,
+    lon: -123.2650,
+};
+
+pub fn home_page(predictions: &[TidePrediction], current_location: &Option<Coordinates>) -> String {
     let time = now_in_pst();
     let pair = compute::find::nearest_pair(&predictions, time);
+
     let (headline, detail) = match pair {
         Some(p) => (p.headline(), p.detail()),
-        _ => ("No Tide Information".into(), "".into())
+        _ => ("No Tide Information".into(), "".into()),
     };
+
+    let distance = match current_location {
+        None => 0.0,
+        Some(c) => compute::gcd::great_circle_distance(c, &POINT_ATKINSON),
+    };
+
     format!(
         "<html>
             <head>
@@ -27,14 +39,15 @@ pub fn home_page(predictions: &[model::TidePrediction]) -> String {
                         </div>
                         <div class='detail'>
                             <p>{}</p>
+                            <p>{:?}</p>
+                            <p>{:?}</p>
                         </div>
                     </div>
                 </div>
                 <script src='getlocation.js'></script>
             </body>
         </html>",
-        headline,
-        detail,
+        headline, detail, current_location, distance
     )
 }
 

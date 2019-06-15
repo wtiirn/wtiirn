@@ -1,5 +1,5 @@
-use chrono::prelude::*;
 use crate::model::{TidePrediction, TidePredictionPair};
+use chrono::prelude::*;
 use itertools::Itertools;
 
 pub fn nearest_pair(
@@ -13,7 +13,7 @@ pub fn nearest_pair(
 
     match (after.first().cloned(), before.last().cloned()) {
         (None, _) | (_, None) => None,
-        (Some(next), Some(prev)) => Some(TidePredictionPair { next, prev })
+        (Some(next), Some(prev)) => Some(TidePredictionPair { next, prev }),
     }
 }
 
