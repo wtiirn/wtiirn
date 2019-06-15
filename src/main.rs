@@ -1,3 +1,4 @@
+use std::convert::TryInto;
 use std::env;
 
 use simple_server::{Method, Server, StatusCode};
@@ -17,10 +18,11 @@ fn main() {
     println!("WTIIRN booting up!");
     let server = Server::new(move |request, mut response| {
         println!("Request received. {} {}", request.method(), request.uri());
+        let coords = request.uri().query().try_into().ok();
 
         match (request.method(), request.uri().path()) {
             (&Method::GET, "/") => {
-                Ok(response.body(pages::home_page(&predictions).as_bytes().to_vec())?)
+                Ok(response.body(pages::home_page(&predictions, &coords).as_bytes().to_vec())?)
             }
             (_, _) => {
                 response.status(StatusCode::NOT_FOUND);

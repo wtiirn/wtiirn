@@ -1,24 +1,8 @@
-use crate::model::{Coordinates};
+use crate::model::Coordinates;
 
 pub type Meters = f64;
 
 const EARTH_RADIUS: Meters = 6_371_000.0;
-
-/// Verify that a number is in [-1, 1], making a small allowance for floating
-/// point errors.
-fn check_acos_domain(x: f64) -> f64 {
-    const ACCEPTABLE_DELTA: f64 = 1e-11;
-    if -1.0 <= x && x <= 1.0 {
-        return x
-    }
-    if x < -1.0 && (-1.0 - ACCEPTABLE_DELTA) < x {
-        return -1.0 + std::f64::EPSILON;
-    }
-    if x > 1.0 && (1.0 + ACCEPTABLE_DELTA) > x {
-        return 1.0 - std::f64::EPSILON;
-    }
-    panic!("f64 outside of arcos range ({})", x);
-}
 
 pub fn great_circle_distance(p1: &Coordinates, p2: &Coordinates) -> Meters {
     // https://en.wikipedia.org/wiki/Great-circle_distance
@@ -30,6 +14,22 @@ pub fn great_circle_distance(p1: &Coordinates, p2: &Coordinates) -> Meters {
     let central = check_acos_domain(cos_central).acos();
     println!("central = {}", central);
     central * EARTH_RADIUS
+}
+
+/// Verify that a number is in [-1, 1], making a small allowance for floating
+/// point errors.
+fn check_acos_domain(x: f64) -> f64 {
+    const ACCEPTABLE_DELTA: f64 = 1e-11;
+    if -1.0 <= x && x <= 1.0 {
+        return x;
+    }
+    if x < -1.0 && (-1.0 - ACCEPTABLE_DELTA) < x {
+        return -1.0 + std::f64::EPSILON;
+    }
+    if x > 1.0 && (1.0 + ACCEPTABLE_DELTA) > x {
+        return 1.0 - std::f64::EPSILON;
+    }
+    panic!("f64 outside of arcos range ({})", x);
 }
 
 #[cfg(test)]
