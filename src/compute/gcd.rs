@@ -1,10 +1,8 @@
 use crate::model::Coordinates;
+use uom::si::f64::*;
+use uom::si::length::meter;
 
-pub type Meters = f64;
-
-const EARTH_RADIUS: Meters = 6_371_000.0;
-
-pub fn great_circle_distance(p1: &Coordinates, p2: &Coordinates) -> Meters {
+pub fn great_circle_distance(p1: &Coordinates, p2: &Coordinates) -> Length {
     // https://en.wikipedia.org/wiki/Great-circle_distance
     let (lat1, lon1) = p1.to_radians();
     let (lat2, lon2) = p2.to_radians();
@@ -13,7 +11,11 @@ pub fn great_circle_distance(p1: &Coordinates, p2: &Coordinates) -> Meters {
     println!("cos_central = {}", cos_central);
     let central = check_acos_domain(cos_central).acos();
     println!("central = {}", central);
-    central * EARTH_RADIUS
+    central * earth_radius()
+}
+
+fn earth_radius() -> Length {
+    Length::new::<meter>(6_371_000.0)
 }
 
 /// Verify that a number is in [-1, 1], making a small allowance for floating
@@ -36,8 +38,13 @@ fn check_acos_domain(x: f64) -> f64 {
 mod test {
     use super::*;
 
-    const ACCEPTABLE_ERR: Meters = 0.33;
-    const EARTH_CIRC: Meters = 2.0 * std::f64::consts::PI * EARTH_RADIUS;
+    fn earth_circ() -> Length {
+        2.0 * std::f64::consts::PI * earth_radius()
+    }
+
+    fn acceptable_err() -> Length {
+        Length::new::<meter>(0.33)
+    }
 
     #[test]
     fn distance_to_self_is_zero() {
@@ -45,7 +52,7 @@ mod test {
             lat: 100.0,
             lon: 45.0,
         };
-        assert!(great_circle_distance(&p1, &p1) < ACCEPTABLE_ERR);
+        assert!(great_circle_distance(&p1, &p1) < acceptable_err());
     }
 
     #[test]
@@ -56,7 +63,7 @@ mod test {
             lon: 0.0,
         };
         let dist = great_circle_distance(&p1, &p2);
-        assert!((dist - EARTH_CIRC / 4.0).abs() < ACCEPTABLE_ERR);
+        assert!((dist - earth_circ() / 4.0).abs() < acceptable_err());
     }
     #[test]
     fn distance_from_pole_to_pole_is_one_half_circumference() {
@@ -69,7 +76,7 @@ mod test {
             lon: 0.0,
         };
         let dist = great_circle_distance(&p1, &p2);
-        assert!((dist - EARTH_CIRC / 2.0).abs() < ACCEPTABLE_ERR);
+        assert!((dist - earth_circ() / 2.0).abs() < acceptable_err());
     }
 
     #[test]
@@ -84,8 +91,9 @@ mod test {
             lon: 0.0,
         };
         let dist = great_circle_distance(&p1, &p2);
-        assert!((dist - EARTH_CIRC / 4.0).abs() < ACCEPTABLE_ERR);
+        assert!((dist - earth_circ() / 4.0).abs() < acceptable_err());
     }
+
     #[test]
     fn two_half_turns() {
         //Check a point halfway around the world
@@ -98,7 +106,6 @@ mod test {
             lon: 180.0,
         };
         let dist = great_circle_distance(&p1, &p2);
-        println!("{} {}", dist, EARTH_CIRC / 2.0);
-        assert!((dist - EARTH_CIRC / 2.0).abs() < ACCEPTABLE_ERR);
+        assert!((dist - earth_circ() / 2.0).abs() < acceptable_err());
     }
 }
