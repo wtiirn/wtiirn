@@ -5,8 +5,9 @@ use simple_server::{Method, Server, StatusCode};
 
 mod compute;
 mod model;
-mod pages;
 
+mod pages;
+mod stations;
 static PREDICTIONS_SRC: &'static str = include_str!("predictions.json");
 
 fn main() {
