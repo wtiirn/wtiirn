@@ -25,12 +25,11 @@ impl StationCatalogue {
     }
 
     /// Find the station nearest to the given coordinates.
-    pub fn find_near(&self, location: &model::Coordinates) -> &Station {
-        // use std::iter::Iterator;
+    pub fn find_near(&self, coordinates: &model::Coordinates) -> &Station {
         use crate::compute::gcd::great_circle_distance;
         let cmp_distance = |s1: &&Station, s2: &&Station| {
-            let d1 = great_circle_distance(&s1.coordinates, location);
-            let d2 = great_circle_distance(&s2.coordinates, location);
+            let d1 = great_circle_distance(&s1.coordinates, coordinates);
+            let d2 = great_circle_distance(&s2.coordinates, coordinates);
             d1.partial_cmp(&d2).expect("Distances shouldn't be NaN")
         };
         self.stations
@@ -40,11 +39,11 @@ impl StationCatalogue {
     }
 
     /// Add a station's data to this catalogue, assigning it an appropriate unique id.
-    fn add(&mut self, name: &str, coords: &model::Coordinates) {
-        let id: u64 = self.stations.len() as u64;
+    fn add(&mut self, name: &str, coordinates: &model::Coordinates) {
+        let id = self.stations.len() as u64;
         let station = Station {
             name: name.to_owned(),
-            coordinates: *coords,
+            coordinates: *coordinates,
             id,
         };
         self.stations.push(station);
