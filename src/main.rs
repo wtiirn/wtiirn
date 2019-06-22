@@ -11,8 +11,8 @@ mod stations;
 static PREDICTIONS_SRC: &'static str = include_str!("predictions.json");
 
 fn main() {
-    let host = env::var("WTIIRN_HOST").unwrap_or("127.0.0.1".to_string());
-    let port = env::var("PORT").unwrap_or("7878".to_string());
+    let host = env::var("WTIIRN_HOST").unwrap_or_else(|_| "127.0.0.1".to_string());
+    let port = env::var("PORT").unwrap_or_else(|_| "7878".to_string());
 
     let predictions = parse_predictions(PREDICTIONS_SRC);
 
@@ -37,7 +37,6 @@ fn main() {
 }
 
 fn parse_predictions(src: &str) -> Vec<model::TidePrediction> {
-    use serde_json;
     serde_json::from_str(src).expect("Failure to parse included predictions.json")
 }
 

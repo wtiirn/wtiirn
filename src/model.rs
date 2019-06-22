@@ -104,8 +104,8 @@ impl TryFrom<&str> for Coordinates {
         let mut maybe_lat = None;
         let mut maybe_lon = None;
         let tuples = s
-            .split("&")
-            .map(|x| (x.split("=").next(), x.split("=").last()));
+            .split('&')
+            .map(|x| (x.split('=').next(), x.split('=').last()));
 
         for (name, value) in tuples {
             match (name, value) {
