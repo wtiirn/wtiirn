@@ -10,6 +10,13 @@ static POINT_ATKINSON: Coordinates = Coordinates {
     lon: -123.2650,
 };
 
+struct HomePageViewModel {
+    current_time: DateTime<FixedOffset>,
+    current_location: &Option<Coordinates>,
+    prediction_pair: &Option<TidePredictionPair>,
+    station: &Station
+}
+
 pub fn home_page(predictions: &[TidePrediction], current_location: &Option<Coordinates>) -> String {
     let time = now_in_pst();
     let pair = compute::find::nearest_pair(&predictions, time);
