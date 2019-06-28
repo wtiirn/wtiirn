@@ -11,6 +11,13 @@ pub struct Station {
     id: u64,
 }
 
+static ATKINSON_PREDICTIONS_SRC: &'static str = include_str!("atkinson_predictions.json");
+static LAVACA_PREDICTIONS_SRC: &'static str = include_str!("lavaca_predictions.json");
+
+fn parse_predictions(src: &str) -> Vec<TidePrediction> {
+    serde_json::from_str(src).expect("Failure to parse included predictions.json")
+}
+
 /// Queryable repository of stations.
 pub struct StationCatalogue {
     stations: Vec<Station>,
@@ -40,8 +47,8 @@ impl StationCatalogue {
             id: 2,
         };
 
-        let point_atkinson_predictions = vec![];
-        let port_lavaca_predictions = vec![];
+        let point_atkinson_predictions = parse_predictions(ATKINSON_PREDICTIONS_SRC);
+        let port_lavaca_predictions = parse_predictions(LAVACA_PREDICTIONS_SRC);
 
         let station_predictions = [
             (point_atkinson.id, point_atkinson_predictions),
@@ -173,4 +180,10 @@ mod test {
             1
         );
     }
+
+    #[test]
+    fn test_parsing_predictions_file() {
+        parse_predictions(PREDICTIONS_SRC);
+    }
+
 }

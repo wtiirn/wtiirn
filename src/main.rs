@@ -8,13 +8,20 @@ mod model;
 
 mod pages;
 mod stations;
-static PREDICTIONS_SRC: &'static str = include_str!("predictions.json");
 
 fn main() {
     let host = env::var("WTIIRN_HOST").unwrap_or_else(|_| "127.0.0.1".to_string());
     let port = env::var("PORT").unwrap_or_else(|_| "7878".to_string());
 
-    let predictions = parse_predictions(PREDICTIONS_SRC);
+    let catalogue = stations::StationCatalogue::load();
+    let stn = catalogue.find_near(&model::Coordinates {
+        lat: 28.6406,
+        lon: -96.6098,
+    });
+    let predictions: Vec<model::TidePrediction> = catalogue
+        .predictions_for_station(&stn)
+        .expect("Couldn't find initial predictions!")
+        .into();
 
     println!("WTIIRN booting up!");
     let server = Server::new(move |request, mut response| {
@@ -34,13 +41,4 @@ fn main() {
 
     println!("Server listening on port: {}", port);
     server.listen(&host, &port);
-}
-
-fn parse_predictions(src: &str) -> Vec<model::TidePrediction> {
-    serde_json::from_str(src).expect("Failure to parse included predictions.json")
-}
-
-#[test]
-fn test_parsing_predictions_file() {
-    parse_predictions(PREDICTIONS_SRC);
 }
