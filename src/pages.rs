@@ -3,7 +3,8 @@ use uom::si::f64::*;
 use uom::si::length::{kilometer, meter};
 
 use crate::compute;
-use crate::model::{Coordinates, TidePrediction};
+use crate::model::{Coordinates, TidePrediction, TidePredictionPair};
+use crate::stations::Station;
 
 static POINT_ATKINSON: Coordinates = Coordinates {
     lat: 49.3299,
@@ -12,9 +13,9 @@ static POINT_ATKINSON: Coordinates = Coordinates {
 
 struct HomePageViewModel {
     current_time: DateTime<FixedOffset>,
-    current_location: &Option<Coordinates>,
-    prediction_pair: &Option<TidePredictionPair>,
-    station: &Station
+    current_location: Option<Coordinates>,
+    prediction_pair: Option<TidePredictionPair>,
+    station: Station,
 }
 
 pub fn home_page(predictions: &[TidePrediction], current_location: &Option<Coordinates>) -> String {
