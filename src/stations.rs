@@ -20,8 +20,27 @@ impl StationCatalogue {
     /// Panics if there isn't at least one tide station in
     /// the initialized catalogue.
     pub fn load() -> Self {
-        // Ensures that there's at least one tide station.
-        unimplemented!()
+        let point_atkinson = Station {
+            name: "Point Atkinson".to_owned(),
+            coordinates: model::Coordinates {
+                lat: 49.336,
+                lon: -123.262,
+            },
+            id: 1,
+        };
+
+        let port_lavaca = Station {
+            name: "Port Lavaca".to_string(),
+            coordinates: model::Coordinates {
+                lat: 28.6406,
+                lon: -96.6098,
+            },
+            id: 2,
+        };
+
+        StationCatalogue {
+            stations: vec![point_atkinson, port_lavaca],
+        }
     }
 
     /// Find the station nearest to the given coordinates.
@@ -49,7 +68,6 @@ impl StationCatalogue {
         self.stations.push(station);
     }
 }
-
 
 #[test]
 fn test_adding_and_finding_stations() {
