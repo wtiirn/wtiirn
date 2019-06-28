@@ -1,18 +1,20 @@
-use crate::model;
+use crate::model::{Coordinates, TidePrediction};
+use std::collections::HashMap;
 
 /// The generic information about a tide station, divorced
 /// from meta-data like "how are the tides predicted" and
 /// "who's responsible for this station".
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct Station {
     pub name: String,
-    pub coordinates: model::Coordinates,
+    pub coordinates: Coordinates,
     id: u64,
 }
 
 /// Queryable repository of stations.
 pub struct StationCatalogue {
     stations: Vec<Station>,
+    station_predictions: HashMap<u64, Vec<TidePrediction>>,
 }
 
 impl StationCatalogue {
@@ -22,7 +24,7 @@ impl StationCatalogue {
     pub fn load() -> Self {
         let point_atkinson = Station {
             name: "Point Atkinson".to_owned(),
-            coordinates: model::Coordinates {
+            coordinates: Coordinates {
                 lat: 49.336,
                 lon: -123.262,
             },
@@ -31,20 +33,32 @@ impl StationCatalogue {
 
         let port_lavaca = Station {
             name: "Port Lavaca".to_string(),
-            coordinates: model::Coordinates {
+            coordinates: Coordinates {
                 lat: 28.6406,
                 lon: -96.6098,
             },
             id: 2,
         };
 
+        let point_atkinson_predictions = vec![];
+        let port_lavaca_predictions = vec![];
+
+        let station_predictions = [
+            (point_atkinson.id, point_atkinson_predictions),
+            (port_lavaca.id, port_lavaca_predictions),
+        ]
+        .iter()
+        .cloned()
+        .collect();
+
         StationCatalogue {
             stations: vec![point_atkinson, port_lavaca],
+            station_predictions,
         }
     }
 
     /// Find the station nearest to the given coordinates.
-    pub fn find_near(&self, coordinates: &model::Coordinates) -> &Station {
+    pub fn find_near(&self, coordinates: &Coordinates) -> &Station {
         use crate::compute::gcd::great_circle_distance;
         let cmp_distance = |s1: &&Station, s2: &&Station| {
             let d1 = great_circle_distance(&s1.coordinates, coordinates);
@@ -58,7 +72,7 @@ impl StationCatalogue {
     }
 
     /// Add a station's data to this catalogue, assigning it an appropriate unique id.
-    fn add(&mut self, name: &str, coordinates: &model::Coordinates) {
+    fn add(&mut self, name: &str, coordinates: &Coordinates, predictions: &[TidePrediction]) {
         let id = self.stations.len() as u64;
         let station = Station {
             name: name.to_owned(),
@@ -66,34 +80,97 @@ impl StationCatalogue {
             id,
         };
         self.stations.push(station);
+        self.station_predictions.insert(id, predictions.to_vec());
+    }
+
+    pub fn predictions_for_station(&self, station: &Station) -> Option<&[TidePrediction]> {
+        self.station_predictions
+            .get(&station.id)
+            .map(|x| x.as_slice())
     }
 }
 
-#[test]
-fn test_adding_and_finding_stations() {
-    let mut catalogue = StationCatalogue { stations: vec![] };
-    catalogue.add(
-        "Point Atkinson",
-        &model::Coordinates {
-            lat: 49.336,
-            lon: -123.262,
-        },
-    );
-    catalogue.add(
-        "Port Lavaca",
-        &model::Coordinates {
-            lat: 28.6406,
-            lon: -96.6098,
-        },
-    );
-    let aus = model::Coordinates {
-        lat: 30.194444,
-        lon: -97.67,
-    };
-    let yvr = model::Coordinates {
-        lat: 49.194722,
-        lon: -123.183889,
-    };
-    assert_eq!(catalogue.find_near(&aus).name, "Port Lavaca",);
-    assert_eq!(catalogue.find_near(&yvr).name, "Point Atkinson");
+#[cfg(test)]
+mod test {
+    use super::*;
+    use chrono::prelude::*;
+    use uom::si::f64::*;
+    use uom::si::length::meter;
+
+    #[test]
+    fn test_adding_and_finding_stations() {
+        let mut catalogue = StationCatalogue {
+            stations: vec![],
+            station_predictions: HashMap::new(),
+        };
+        catalogue.add(
+            "Point Atkinson",
+            &Coordinates {
+                lat: 49.336,
+                lon: -123.262,
+            },
+            &vec![],
+        );
+        catalogue.add(
+            "Port Lavaca",
+            &Coordinates {
+                lat: 28.6406,
+                lon: -96.6098,
+            },
+            &vec![],
+        );
+        let aus = Coordinates {
+            lat: 30.194444,
+            lon: -97.67,
+        };
+        let yvr = Coordinates {
+            lat: 49.194722,
+            lon: -123.183889,
+        };
+        assert_eq!(catalogue.find_near(&aus).name, "Port Lavaca");
+        assert_eq!(catalogue.find_near(&yvr).name, "Point Atkinson");
+    }
+
+    #[test]
+    fn test_finding_predictions_for_station() {
+        let mut catalogue = StationCatalogue {
+            stations: vec![],
+            station_predictions: HashMap::new(),
+        };
+        catalogue.add(
+            "Point Atkinson",
+            &Coordinates {
+                lat: 49.336,
+                lon: -123.262,
+            },
+            &vec![TidePrediction {
+                tide: Length::new::<meter>(2.0),
+                time: FixedOffset::west(8 * 3600)
+                    .ymd(2019, 05, 14)
+                    .and_hms(0, 0, 0),
+            }],
+        );
+
+        catalogue.add(
+            "Port Lavaca",
+            &Coordinates {
+                lat: 28.6406,
+                lon: -96.6098,
+            },
+            &vec![],
+        );
+
+        let yvr = Coordinates {
+            lat: 49.194722,
+            lon: -123.183889,
+        };
+
+        assert_eq!(
+            catalogue
+                .predictions_for_station(catalogue.find_near(&yvr))
+                .expect("No predictions found")
+                .len(),
+            1
+        );
+    }
 }
