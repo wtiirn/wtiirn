@@ -3,15 +3,15 @@ use uom::si::f64::*;
 use uom::si::length::{kilometer, meter};
 
 use crate::compute;
-use crate::model::{Coordinates, TidePrediction, TidePredictionPair};
-use crate::stations::Station;
+use crate::model::{Coordinates, TidePredictionPair};
+use crate::stations::{Station, StationCatalogue};
 
 static POINT_ATKINSON: Coordinates = Coordinates {
     lat: 49.3299,
     lon: -123.2650,
 };
 
-struct HomePageViewModel {
+pub struct HomePageViewModel {
     current_time: DateTime<FixedOffset>,
     current_location: Option<Coordinates>,
     prediction_pair: Option<TidePredictionPair>,
@@ -19,6 +19,22 @@ struct HomePageViewModel {
 }
 
 impl HomePageViewModel {
+    /// Collect the information necessary for rendering the home page based on a request's
+    /// location and the station catalogue that was loaded at startup.
+    pub fn new(stn_catalogue: &StationCatalogue, coords: &Option<Coordinates>) -> Self {
+        let current_time = now_in_pst();
+        let station = stn_catalogue.find_near(&coords.unwrap_or_else(|| POINT_ATKINSON));
+        let predictions = stn_catalogue.predictions_for_station(&station);
+        let prediction_pair =
+            predictions.and_then(|preds| compute::find::nearest_pair(preds, current_time));
+        HomePageViewModel {
+            current_time,
+            current_location: *coords,
+            prediction_pair,
+            station: station.clone(),
+        }
+    }
+
     fn headline(&self) -> String {
         match self.prediction_pair {
             Some(p) => p.headline(),
@@ -56,27 +72,7 @@ impl HomePageViewModel {
     }
 }
 
-pub fn home_page(predictions: &[TidePrediction], current_location: &Option<Coordinates>) -> String {
-    let time = now_in_pst();
-    let pair = compute::find::nearest_pair(&predictions, time);
-
-    let station = Station {
-        name: "Point Atkinson".to_owned(),
-        coordinates: POINT_ATKINSON,
-        id: 0,
-    };
-
-    let vm = HomePageViewModel {
-        current_time: time,
-        current_location: *current_location,
-        prediction_pair: pair,
-        station,
-    };
-
-    real_home_page(vm)
-}
-
-fn real_home_page(vm: HomePageViewModel) -> String {
+pub fn home_page(vm: HomePageViewModel) -> String {
     format!(
         "<html>
             <head>
