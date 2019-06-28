@@ -1,8 +1,6 @@
 use crate::model::{TidePrediction, TidePredictionPair};
 use chrono::prelude::*;
 use itertools::Itertools;
-use uom::si::f64::*;
-use uom::si::length::meter;
 
 pub fn nearest_pair(
     tides: &[TidePrediction],
@@ -22,6 +20,8 @@ pub fn nearest_pair(
 #[cfg(test)]
 mod test {
     use super::*;
+    use uom::si::f64::*;
+    use uom::si::length::meter;
 
     #[test]
     fn it_finds_the_nearest_pair() {
