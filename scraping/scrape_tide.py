@@ -71,7 +71,7 @@ def format_prediction(p: TidePrediction) -> str:
 if __name__ == "__main__":
     src = pathlib.Path("point_atkinson_2019.html").open().read()
     predictions = list(parse_tides(src))
-    with pathlib.Path("predictions.json").open("w") as outf:
+    with pathlib.Path("atkinson_predictions.json").open("w") as outf:
         outf.write("[\n")
         outf.write(",\n".join([format_prediction(p) for p in predictions]))
         outf.write("]")
