@@ -8,7 +8,7 @@ use std::collections::HashMap;
 pub struct Station {
     pub name: String,
     pub coordinates: Coordinates,
-    id: u64,
+    pub id: u64,
 }
 
 static ATKINSON_PREDICTIONS_SRC: &'static str = include_str!("atkinson_predictions.json");

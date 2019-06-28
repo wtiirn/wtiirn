@@ -18,20 +18,65 @@ struct HomePageViewModel {
     station: Station,
 }
 
+impl HomePageViewModel {
+    fn headline(&self) -> String {
+        match self.prediction_pair {
+            Some(p) => p.headline(),
+            _ => "No Tide Information".into(),
+        }
+    }
+
+    fn detail(&self) -> String {
+        match self.prediction_pair {
+            Some(p) => p.detail(),
+            _ => "".into(),
+        }
+    }
+
+    fn distance_from_station(&self) -> Length {
+        match self.current_location {
+            None => Length::new::<meter>(0.0),
+            Some(c) => compute::gcd::great_circle_distance(&c, &POINT_ATKINSON),
+        }
+    }
+
+    fn km_from_station(&self) -> f64 {
+        self.distance_from_station().get::<kilometer>()
+    }
+
+    fn station_info(&self) -> String {
+        let mut info = format!("The tide station used is <b>{}</b>", self.station.name);
+        if self.current_location.is_some() {
+            info += &format!(
+                " which is <b>{:.2}</b> KM from your current location",
+                self.km_from_station()
+            );
+        }
+        info
+    }
+}
+
 pub fn home_page(predictions: &[TidePrediction], current_location: &Option<Coordinates>) -> String {
     let time = now_in_pst();
     let pair = compute::find::nearest_pair(&predictions, time);
 
-    let (headline, detail) = match pair {
-        Some(p) => (p.headline(), p.detail()),
-        _ => ("No Tide Information".into(), "".into()),
+    let station = Station {
+        name: "Point Atkinson".to_owned(),
+        coordinates: POINT_ATKINSON,
+        id: 0,
     };
 
-    let distance = match current_location {
-        None => Length::new::<meter>(0.0),
-        Some(c) => compute::gcd::great_circle_distance(c, &POINT_ATKINSON),
+    let vm = HomePageViewModel {
+        current_time: time,
+        current_location: *current_location,
+        prediction_pair: pair,
+        station,
     };
 
+    real_home_page(vm)
+}
+
+fn real_home_page(vm: HomePageViewModel) -> String {
     format!(
         "<html>
             <head>
@@ -49,7 +94,6 @@ pub fn home_page(predictions: &[TidePrediction], current_location: &Option<Coord
                         </div>
                         <div class='detail'>
                             <p>{}</p>
-                            <p>{:?}</p>
                             <p>{}</p>
                         </div>
                     </div>
@@ -57,10 +101,9 @@ pub fn home_page(predictions: &[TidePrediction], current_location: &Option<Coord
                 <script src='getlocation.js'></script>
             </body>
         </html>",
-        headline,
-        detail,
-        current_location,
-        distance.get::<kilometer>()
+        vm.headline(),
+        vm.detail(),
+        vm.station_info()
     )
 }
 
