@@ -183,7 +183,7 @@ mod test {
 
     #[test]
     fn test_parsing_predictions_file() {
-        parse_predictions(PREDICTIONS_SRC);
+        parse_predictions(ATKINSON_PREDICTIONS_SRC);
     }
 
 }
