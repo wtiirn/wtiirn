@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <soapenv:Body>
+    <ns1:getMetadataResponse soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:ns1="http://schemas.conversesolutions.com/xsd/dmticta/v1">
+
+      <getMetadataReturn soapenc:arrayType="ns2:Metadata[12]"
+      xsi:type="soapenc:Array" xmlns:ns2="http://wds.dfo.gc.ca"
+      xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+        <getMetadataReturn href="#id0" />
+        <getMetadataReturn href="#id1" />
+        <getMetadataReturn href="#id2" />
+        <getMetadataReturn href="#id3" />
+        <getMetadataReturn href="#id4" />
+        <getMetadataReturn href="#id5" />
+        <getMetadataReturn href="#id6" />
+        <getMetadataReturn href="#id7" />
+        <getMetadataReturn href="#id8" />
+        <getMetadataReturn href="#id9" />
+        <getMetadataReturn href="#id10" />
+        <getMetadataReturn href="#id11" />
+      </getMetadataReturn>
+    </ns1:getMetadataResponse>
+    <multiRef id="id6" soapenc:root="0"
+    soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xsi:type="ns3:Metadata"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:ns3="http://wds.dfo.gc.ca">
+      <name xsi:type="xsd:string">reference_date</name>
+      <value xsi:type="xsd:string">2015-01-01 00:00:00 to
+      2030-12-31 23:59:59</value>
+    </multiRef>
+    <multiRef id="id5" soapenc:root="0"
+    soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xsi:type="ns4:Metadata" xmlns:ns4="http://wds.dfo.gc.ca"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+      <name xsi:type="xsd:string">abstract</name>
+      <value xsi:type="xsd:string">This web service gives access to
+      water level predictions all over Canada</value>
+    </multiRef>
+    <multiRef id="id7" soapenc:root="0"
+    soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xsi:type="ns5:Metadata" xmlns:ns5="http://wds.dfo.gc.ca"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+      <name xsi:type="xsd:string">station_id_list</name>
+      <value xsi:type="xsd:string">
+      05310,05330,05358,05430,05490,05500,05510,05560,05600,05615,05645,05650,05790,05791,05795,05860,05865,05985,06100,04205,06150,03045,03048,03057,03060,03070,03080,03087,03095,03100,03105,03110,03120,03125,03130,03140,03160,03170,03175,03180,03190,03200,03250,03251,03264,03270,03280,03295,03300,03325,03335,03337,03345,03350,03360,03425,03460,03480,03765,03790,03840,03940,03960,03970,03980,03995,04040,04070,04100,04120,04135,04140,04160,03030,04170,00010,00015,00020,00025,00030,00035,00040,00046,00060,00065,00085,00098,00108,00120,00129,00140,00150,00160,00170,00190,00215,00225,00235,00236,00240,00245,00247,00250,00255,00260,00270,00001,00282,00290,00300,00305,00312,00315,00320,00325,00330,00333,00334,00335,00336,00337,00338,00340,00345,00353,00355,00360,00365,00370,00375,00378,00380,00382,00385,00390,00395,00400,00405,00410,00415,00420,00425,00430,00435,00440,00455,00475,00482,00485,00488,00490,00493,00495,00500,00505,00510,00512,00514,00515,00520,00525,00530,00535,00540,00545,00550,00555,06472,06476,06485,06495,06505,06525,06560,06570,06580,06640,06660,06670,06730,06735,06758,06765,06780,06910,06955,07013,07020,07024,07030,07080,07110,07120,07125,07130,07140,07260,07277,07284,07310,07315,07330,07345,07350,07360,07407,07414,07420,07450,07455,07460,07471,07510,07525,07532,07535,06210,04255,04265,04295,04298,04315,04325,04335,04425,04435,04460,04470,04480,04500,04538,04548,04597,04600,04604,04610,04628,04645,04655,04680,04710,04730,04740,04780,04810,04880,04920,04980,05010,05040,05055,05070,05090,05140,05159,05180,05200,09082,09090,09105,09115,09130,09140,09150,09165,09195,09230,09242,08482,07577,07590,07594,07735,07755,07795,07811,07820,07830,07836,07843,07852,07865,07868,07875,07880,07885,07892,07895,07917,07930,07935,07938,07953,07955,07965,07982,07990,07993,08015,08025,08037,08038,08045,08060,08065,08069,08074,08110,08120,08150,08180,08195,08215,08245,08250,08280,08290,08310,08313,08340,08364,08371,08379,08384,08394,08408,08426,08458,08464,08476,07550,06240,06290,06310,06338,06340,06350,06360,06367,06424,06443,06457,09305,09306,09312,09315,09325,09333,09342,09354,09390,09418,09422,09443,09448,09475,09502,09512,09570,09625,09635,09724,09765,09775,09790,09850,09910,09920,09927,09940,09961,09964,09250,08488,08525,08545,08565,08575,08585,08588,08595,08615,08623,08626,08630,08632,08634,08637,08645,08650,08670,08710,08735,08736,08750,08756,08765,08790,08805,08814,08840,08860,08865,08868,08870,08906,08912,08937,08958,08962,08976,08981,08996,09005,09020,09035,09056,09063,09067,09077,00097,03248,05275,05295,09708,00563,00570,00576,00580,00582,00585,00600,00610,00612,00621,00622,00623,00630,00638,00663,00665,00666,00690,00705,00710,00720,00745,00795,00805,00810,00815,00818,00830,00835,00845,00880,00890,00898,00905,00915,00925,00935,00955,00975,00985,00990,01008,01015,01018,01030,01040,01049,01050,01052,01056,01060,01070,01080,01085,01095,01102,01105,01110,01115,01125,01135,01165,01170,01180,01190,01195,01200,01202,01205,01210,01245,01267,01280,01285,01320,01335,01350,01365,01370,01390,01405,01416,01430,01465,01490,01520,01530,01540,01545,01546,01548,01550,01560,01570,01580,01590,01600,01610,01620,01630,01635,01640,01650,01660,01665,01670,01680,01690,01700,01710,01715,01725,01735,01745,01760,01770,01775,01780,01785,01790,01800,01805,01810,01812,01815,01820,01825,01830,01835,01845,01855,01865,01875,01885,01896,01905,01915,01925,01935,01945,01955,01960,01964,01970,01985,02000,02010,02020,02022,02025,02030,02033,02035,02040,02060,02070,02071,02090,02110,02120,02130,02145,02165,02175,02200,02215,02235,02240,02250,02253,02279,02290,02310,02319,02320,02330,02340,02350,02360,02375,02410,02460,02470,02480,02490,02510,02518,02530,02550,02554,02556,02558,02564,02585,02588,02590,02595,02600,02633,02635,02650,02660,02670,02680,02685,02695,02710,02720,02750,02780,02790,02840,02880,02900,02920,02935,02940,02955,02980,02995,03005,02985,00004,00005,00006,00007,00008,00009,00011,00014,00016,00021,00024,00028,00029,00033,00041,00042,00044,00053,00055,00102,00103,00122,00242,00339,00366,00367,00368,00374,00408,00423,00426,00450,00452,00473,00479,00480,00484,00486,00497,00509,00511,00516,00575,00595,00620,00635,00653,00672,00724,00755,00860,00893,00907,00912,00920,00970,00973,00977,00981,01003,01009,01010,01025,01035,01048,01053,01054,01065,01181,01182,01185,01186,01217,01247,01248,01377,01397,01398,01400,01410,01420,01425,01485,01539,01547,01662,01827,01860,01966,01981,01986,01987,01988,01990,02012,02014,02028,02029,02034,02230,02260,02285,02309,02335,02580,02637,02638,02642,02826,02883,02975,03052,03058,03071,03122,03145,03150,03166,03260,03304,04379,04575,05100,07109,07480,07607,07654,08105,08810,08917,08978,09058,01098,00491,01097,01995,01597,08347,08348,02196,08008,08325,06380,03780,03785,04029,04045,04215,04279,04340,04345,04400,04415,04490,04648,04662,04688,04720,04790,04800,04840,05906,05912,05917,05918,05935,05940,05948,05960,06787,05643,06497,05970,05975,05976,05978,05990,05992,05998,06160,06515,08035,04681,03353,03265,04245,09883,09966,08145,08258,08812,09511,09667,09958,03000,03246,02945,02815,02583,02577,02415,02314,02295,02269,03466,02581,01345,06144,03424,07808,07707,09346,04296,04297,05193,05800,06213,05161,04275,05195,05190,06140,05930,06225,01976,03838</value>
+    </multiRef>
+    <multiRef id="id11" soapenc:root="0"
+    soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xsi:type="ns6:Metadata" xmlns:ns6="http://wds.dfo.gc.ca"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+      <name xsi:type="xsd:string">max_rows</name>
+      <value xsi:type="xsd:string">1000</value>
+    </multiRef>
+    <multiRef id="id9" soapenc:root="0"
+    soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xsi:type="ns7:Metadata" xmlns:ns7="http://wds.dfo.gc.ca"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+      <name xsi:type="xsd:string">station_id_name_list</name>
+      <value xsi:type="xsd:string">[05310;;S&#233;vigny
+      Point][05330;;Purfur Cove][05358;;Needle Cove][05430;;Dundas
+      Harbour][05490;;Rigby Bay][05500;;Radstock
+      Bay][05510;;Beechey Island][05560;;Resolute][05600;;Cape
+      Capel][05615;;Hamilton Island][05645;;Winter
+      Harbour][05650;;Peel Point][05790;;Koluktoo Bay][05791;;Milne
+      Inlet][05795;;Pisiktarfik Island][05860;;Strathcona
+      Sound][05865;;Arctic Bay][05985;;Kugaaruk][06100;;False
+      Strait][04205;;Kimmirut][06150;;Taloyoak][03045;;Pointe-au-Pic][03048;;Saint-Ir&#233;n&#233;e][03057;;Saint-Joseph-de-la-Rive
+      *][03060;;Cap-aux-Corbeaux][03070;;Sault-au-Cochon][03080;;Saint-Joachim][03087;;Sainte-Anne-de-Beaupr&#233;][03095;;Montmorency][03100;;Saint-Fran&#231;ois
+      I.O. *][03105;;Saint-Jean (I.O.)][03110;;Saint-Laurent
+      (I.O.)][03120;;Ile
+      Verte][03125;;Gros-Cacouna][03130;;Rivi&#232;re-du-Loup][03140;;Ile
+      aux
+      Li&#232;vres][03160;;Pointe-aux-Orignaux][03170;;Saint-Jean-Port-Joli][03175;;L&#180;Islet-sur-Mer][03180;;Ile
+      aux Grues][03190;;La Grosse
+      &#206;le][03200;;Berthier-sur-Mer][03250;;Qu&#233;bec
+      (Lauzon)][03251;;Immigration Wharf][03264;;Quai
+      Irving][03270;;Saint-Nicolas][03280;;Neuville
+      *][03295;;Pointe-au-Platon][03300;;Portneuf
+      *][03325;;Grondines][03335;;Deschaillons
+      *][03337;;Brickyard][03345;;Batiscan
+      *][03350;;Champlain][03360;;Trois-Rivi&#232;res
+      *][03425;;Tadoussac][03460;;Port-Alfred][03480;;Chicoutimi][03765;;Alert][03790;;Discovery
+      Harbour][03840;;Pim Island][03940;;Clyde River][03960;;Cape
+      Hooper][03970;;Kivitoo][03980;;Qikiqtarjuaq][03995;;Cape
+      Dyer][04040;;Clearwater Fiord][04070;;Brevoort
+      Harbour][04100;;Resor Island][04120;;Frobisher&#180;s
+      Farthest][04135;;Lewis Bay][04140;;Iqaluit][04160;;Sorry
+      Harbour][03030;;Saint-Sim&#233;on][04170;;Acadia
+      Cove][00010;;North Head][00015;;Welshpool][00020;;Wilsons
+      Beach][00025;;Fairehaven][00030;;Back Bay][00035;;St.
+      Stephen][00040;;St. Andrews][00046;;Dipper Harbour
+      West][00060;;Partridge Island][00065;;Saint John
+      *][00085;;Rothesay][00098;;Evandale][00108;;Upper
+      Gagetown][00120;;Fredericton][00129;;St.
+      Martins][00140;;Herring Cove][00150;;Cape
+      Enrage][00160;;Grindstone Island][00170;;Hopewell
+      Cape][00190;;Pecks Point][00215;;Joggins][00225;;Cape
+      Capstan][00235;;West Advocate][00236;;Advocate
+      Harbour][00240;;Cape D&#180;Or][00245;;Port
+      Greville][00247;;Diligent River][00250;;Cape
+      Sharp][00255;;Parrsboro][00260;;Five
+      Islands][00270;;Burntcoat Head][00001;;Outer Wood
+      Island][00282;;Hantsport][00290;;Cape Blomidon][00300;;Scots
+      Bay][00305;;Baxters Harbour][00312;;Isle
+      Haute][00315;;Margaretsville][00320;;Parkers
+      Cove][00325;;Digby][00330;;Broad Cove][00333;;Grand
+      Eddy][00334;;Centreville][00335;;Sandy Cove][00336;;East
+      Sandy Cove][00337;;Tiverton, South Entrance][00338;;Tiverton,
+      Boars Head][00340;;Westport][00345;;Lighthouse
+      Cove][00353;;Church Point][00355;;Meteghan][00360;;Port
+      Maitland][00365;;Yarmouth *][00370;;Pinkney Point
+      ][00375;;Wedgeport][00378;;Tusket][00380;;Abrams
+      River][00382;;Abbotts Harbour][00385;;Lower East
+      Pubnico][00390;;Woods Harbour ][00395;;Flat
+      Island][00400;;Seal Island][00405;;Clark&#180;s
+      Harbour][00410;;Swims Point ][00415;;Barrington
+      Passage][00420;;Upper Port La
+      Tour][00425;;Shelburne][00430;;Lockeport][00435;;Port
+      Mouton][00440;;Liverpool][00455;;Lunenburg][00475;;Mill
+      Cove][00482;;Boutiliers Point][00485;;Cliff
+      Cove][00488;;Sambro Harbour][00490;;Halifax
+      *][00493;;Chezzetcook Inlet][00495;;Salmon River
+      Bridge][00500;;Murphy Cove][00505;;Tomlee Bay][00510;;Sheet
+      Harbour][00512;;West Newdy Quoddy][00514;;Ecum
+      Secum][00515;;Liscomb
+      Harbour][00520;;Sonora][00525;;Sherbrooke][00530;;Port
+      Bickerton][00535;;Isaacs Harbour][00540;;Larrys
+      River][00545;;Whitehead][00550;;Sable Island][00555;;Canso
+      Harbour][06472;;Cape Dalhousie][06476;;Atkinson
+      Point][06485;;Tuktoyaktuk][06495;;Hooper
+      Island][06505;;Shingle Point][06525;;Herschel
+      Island][06560;;Cape Skogn][06570;;Grise Fiord][06580;;Bay of
+      Woe][06640;;Eureka][06660;;Iceberg Point][06670;;Greely
+      Fiord][06730;;Disraeli Fiord][06735;;Cape
+      Aldrich][06758;;Little Cornwallis Island][06765;;Airstrip
+      Point][06780;;Northumberland
+      Sound][06910;;Isachsen][06955;;Mould Bay][07013;;Sheringham
+      Point][07020;;Sooke][07024;;Sooke Basin][07030;;Becher
+      Bay][07080;;Pedder Bay][07110;;Esquimalt][07120;;Victoria
+      *][07125;;Portage Inlet][07130;;Oak Bay][07140;;Finnerty
+      Cove][07260;;Sidney][07277;;Patricia Bay *][07284;;Finlayson
+      Arm][07310;;Cowichan Bay][07315;;Maple Bay][07330;;Fulford
+      Harbour][07345;;Narvaez Bay][07350;;Bedwell
+      Harbour][07360;;Hope Bay][07407;;Ganges
+      Harbour][07414;;Village Bay][07420;;Montague
+      Harbour][07450;;Crofton][07455;;Chemainus][07460;;Ladysmith][07471;;Preedy
+      Harbour][07510;;Tumbo Channel][07525;;Georgina
+      Point][07532;;Whaler Bay][07535;;Dionisio
+      Point][06210;;Gladman Point][04255;;Schooner
+      Harbour][04265;;Port Burwell][04295;;Rivi&#232;re
+      Koksoak][04298;;Kuujjuaq][04315;;Lac aux
+      Feuilles][04325;;Hopes Advance Bay][04335;;Agvik
+      Island][04425;;Kangiqsujuaq][04435;;Douglas
+      Harbour][04460;;Deception Bay][04470;;Salluit][04480;;Digges
+      Harbour][04500;;Port de
+      Boucherville][04538;;Akulivik][04548;;North Kopak
+      Island][04597;;Gillies Island][04600;;Tukarak
+      Island][04604;;B&#233;langer Island][04610;;Innetalling
+      Island][04628;;Renouf
+      Island][04645;;Kuujjuarapik][04655;;Long Island][04680;;La
+      Grande Rivi&#232;re][04710;;Eastmain][04730;;Charlton
+      Island][04740;;Stag Island][04780;;Sand
+      Head][04810;;Moosonee][04880;;Bear Island (James
+      Bay)][04920;;Winisk][04980;;Port
+      Nelson][05010;;Churchill][05040;;Arviat (Eskimo
+      Point)][05055;;Whale Cove][05070;;Marble
+      Island][05090;;Panorama Island][05140;;Chesterfield
+      Inlet][05159;;Norton Island][05180;;Coral
+      Harbour][05200;;Naujaat][09082;;Beauchemin
+      Channel][09090;;Surf Inlet][09105;;Gillen
+      Harbour][09115;;Barnard Harbour][09130;;Hartley
+      Bay][09140;;Kitimat][09150;;Kemano Bay][09165;;Block
+      Islands][09195;;Lowe Inlet][09230;;Griffith
+      Harbour][09242;;Kitkatla Islands][08482;;Belize
+      Inlet][07577;;White Rock][07590;;Tsawwassen][07594;;Sand
+      Heads][07735;;Vancouver *][07755;;Port Moody][07795;;Point
+      Atkinson *][07811;;Squamish][07820;;Gibsons][07830;;Halfmoon
+      Bay][07836;;Irvines Landing][07843;;Boom
+      Islet][07852;;Porpoise Bay][07865;;Blind Bay][07868;;Saltery
+      bay][07875;;Blubber Bay][07880;;Powell
+      River][07885;;Lund][07892;;Twin Islands][07895;;Mitlenatch
+      Island][07917;;Nanaimo][07930;;Nanoose Bay][07935;;Winchelsea
+      Islands][07938;;Northwest Bay][07953;;Hornby
+      Island][07955;;Denman Island][07965;;Comox][07982;;False
+      Bay][07990;;Welcome Bay][07993;;Little River][08015;;Channel
+      Island][08025;;Redonda Bay][08037;;Gorge
+      Harbour][08038;;Whaletown Bay][08045;;Surge
+      Narrows][08060;;Big Bay][08065;;Orford Bay][08069;;Waddington
+      Harbour][08074;;Campbell River *][08110;;Brown
+      Bay][08120;;Owen Bay][08150;;Cordero Islands][08180;;Chatham
+      Point][08195;;Knox Bay][08215;;Kelsey Bay][08245;;Port
+      Neville][08250;;Port Harvey][08280;;Alert Bay][08290;;Port
+      McNeill][08310;;Glendale Cove][08313;;Montagu
+      Point][08340;;Sunday Harbour][08364;;Sullivan
+      Bay][08371;;Jessie Point][08379;;Stuart
+      Narrows][08384;;Jennis Bay ][08394;;Raynor Group][08408;;Port
+      Hardy *][08426;;Walker Group][08458;;Frederick
+      Sound][08464;;Nugent Sound][08476;;Mereworth
+      Sound][07550;;Silva Bay][06240;;Cambridge
+      Bay][06290;;Kugluktuk][06310;;Bernard Harbour][06338;;Tysoe
+      Point][06340;;Pearce Point][06350;;Paulatuk][06360;;Cape
+      Parry][06367;;Franklin Bay][06424;;Sachs
+      Harbour][06443;;Baillies Islands][06457;;Krubluyak
+      Point][09305;;Welcome Harbour][09306;;Refuge
+      Bay][09312;;Lawyer Islands][09315;;Qlawdzeet
+      Anchorage][09325;;Moffatt Islands][09333;;Brundige
+      Inlet][09342;;Port Edward][09354;;Prince Rupert
+      *][09390;;Port Simpson][09418;;Ranger
+      Islet][09422;;Kincolith][09443;;Granby Bay][09448;;Alice
+      Arm][09475;;Stewart][09502;;Cape St. James][09512;;Gordon
+      Islands][09570;;Hunger Harbour][09625;;Trounce
+      Inlet][09635;;Dawson Harbour][09724;;Copper
+      Islands][09765;;Atli Inlet][09775;;Pacofi][09790;;McCoy
+      Cove][09850;;Queen Charlotte *][09910;;Masset][09920;;Port
+      Clements][09927;;Juskatla][09940;;Wiah Point][09961;;Egeria
+      Bay][09964;;Langara Point][09250;;Seabreeze
+      Point][08488;;Alison Sound][08525;;Port
+      Renfrew][08545;;Bamfield *][08565;;Franklin
+      River][08575;;Port Alberni][08585;;Effingham
+      Bay][08588;;Stopper Islands][08595;;Ucluelet][08615;;Tofino
+      *][08623;;Kennedy Cove][08626;;Warn Bay][08630;;Cypress
+      Bay][08632;;Herbert Inlet][08634;;Sulphur
+      Passage][08637;;Riley Cove][08645;;Saavedra
+      Islands][08650;;Gold
+      River][08670;;Zeballos][08710;;Kyuquot][08735;;Winter Harbour
+      *][08736;;Hunt Islets][08750;;Port Alice][08756;;Makwazniht
+      Island][08765;;Coal Harbour][08790;;Cape Scott][08805;;Egg
+      Island][08814;;Smith Inlet][08840;;Wadhams][08860;;Addenbroke
+      Island][08865;;Adams Harbour][08868;;Edward
+      Channel][08870;;Namu][08906;;Gosling Island][08912;;Spider
+      Island][08937;;Bella Coola][08958;;Forit Bay][08962;;Ocean
+      Falls][08976;;Bella Bella *][08981;;Troup
+      Passage][08996;;Gerald Point][09005;;Port
+      Blackney][09020;;Griffin
+      Passage][09035;;Klemtu][09056;;Higgings Passage][09063;;Milne
+      Island][09067;;Smithers Island][09077;;McKenney
+      Islands][00097;;Hatfield
+      Point][03248;;Vieux-Qu&#233;bec][05275;;Hall
+      Beach][05295;;Igloolik][09708;;Heater Harbour][00563;;Sand
+      Point][00570;;Port Hastings][00576;;Point
+      Tupper][00580;;Arichat][00582;;Petit-de-Grat][00585;;Cannes][00600;;Louisbourg][00610;;Sydney][00612;;North
+      Sydney *][00621;;Table Head][00622;;Duffus
+      Point][00623;;Black Rock Point][00630;;Ingonish
+      Ferry][00638;;Dingwall][00663;;Grand Bay][00665;;Port aux
+      Basques *][00666;;Isle aux
+      Morts][00690;;Pushthrough][00705;;St.Alban&#180;s][00710;;Hermitage][00720;;Harbour
+      Breton][00745;;Saint-Pierre][00795;;Tacks Beach][00805;;Woody
+      Island][00810;;North Harbour][00815;;Come By
+      Chance][00818;;Arnold&#180;s Cove][00830;;Long
+      Harbour][00835;;Argentia *][00845;;St.
+      Bride&#180;s][00880;;Trepassey][00890;;Fermeuse
+      Harbour][00898;;Gull Island][00905;;St. John&#180;s
+      *][00915;;Bell Island][00925;;Holyrood ][00935;;Harbour
+      Grace][00955;;Heart&#180;s
+      Content][00975;;Clarenville][00985;;Port
+      Union][00990;;Bonavista
+      *][01008;;Charlottetown][01015;;Salvage][01018;;Glovertown][01030;;Valleyfield][01040;;Carmanville][01049;;Tilting
+      Harbour][01050;;Fogo Harbour][01052;;Change
+      Islands][01056;;Dildo Run
+      (Causeway)][01060;;Twillingate][01070;;Lewisporte][01080;;Botwood][01085;;Exploits
+      Upper Harbour][01095;;Little Bay Arm][01102;;Tilt
+      Cove][01105;;La Scie][01110;;Baie Verte][01115;;Seal
+      Cove][01125;;Hampden][01135;;Sops Island][01165;;Lock&#180;s
+      Cove][01170;;St. Anthony][01180;;Ship Cove ][01190;;Battle
+      Harbour][01195;;Port Marnham][01200;;Denbigh
+      Island][01202;;White Bear Arm][01205;;Nevile
+      Island][01210;;Port Hope Simpson][01245;;Cartwright
+      ][01267;;Jordans Point][01280;;Rigolet][01285;;Caravalla
+      Cove][01320;;Cabot Point][01335;;North West
+      River][01350;;Terrington Basin][01365;;Smokey][01370;;Emily
+      Harbour][01390;;Makkovik][01405;;Hopedale][01416;;Davis
+      Inlet][01430;;Nain *][01465;;Hebron][01490;;Williams
+      Harbour][01520;;Bay St. Lawrence][01530;;St. Paul
+      Island][01540;;La Pointe][01545;;Margaree
+      Trailer][01546;;Margaree Breakwater][01548;;Margeree
+      Bridge][01550;;Broad Cove Marsh][01560;;Port
+      Hood][01570;;Aulds Cove][01580;;Cape Jack][01590;;Antigonish
+      Harbour][01600;;Ballantynes
+      Cove][01610;;Arisaig][01620;;Merigomish][01630;;Pictou][01635;;Pictou
+      Island][01640;;Caribou][01650;;Souris][01660;;Georgetown][01665;;Graham
+      Pond][01670;;Murray Harbour][01680;;Wood Islands
+      *][01690;;Point Prim][01700;;Charlottetown *][01710;;Canoe
+      Cove][01715;;Victoria][01725;;Borden][01735;;Summerside][01745;;Skinners
+      Cove][01760;;Malagash][01770;;Cape
+      Cliff][01775;;Pugwash][01780;;Tidnish][01785;;Port
+      Elgin][01790;;Cape Tormentine][01800;;Cap
+      Pel&#233;][01805;;Shediac Bay *][01810;;Cap de
+      Caissie][01812;;Cocagne
+      Harbour][01815;;Saint-Thomas-de-Kent][01820;;Richibucto
+      Cape][01825;;Richibucto Bar][01830;;Pointe-Sapin][01835;;Cape
+      Egmont][01845;;West Point][01855;;Miminegash][01865;;North
+      Point][01875;;Tignish][01885;;Alberton][01896;;Ellerslie][01905;;Malpeque][01915;;Rustico][01925;;Savage
+      Harbour][01935;;St. Peters Bay][01945;;Naufrage][01955;;North
+      Lake
+      Harbour][01960;;Millerand][01964;;Havre-Aubert][01970;;Cap-aux-Meules
+      *][01985;;Grande-Entr&#233;e][02000;;Escuminac
+      *][02010;;Portage Island][02020;;Lower
+      Neguac][02022;;Neguac][02025;;Burnt Church][02030;;Oak
+      Point][02033;;Loggieville][02035;;Chatham][02040;;Newcastle][02060;;Tracadie][02070;;Shippegan
+      Gully][02071;;Shippagan][02090;;Miscou][02110;;Caraquet][02120;;Stonehaven][02130;;Bathurst][02145;;Belledune
+      *][02165;;Dalhousie][02175;;Campbellton][02200;;Carleton][02215;;Pointe
+      Howatson][02235;;Pasp&#233;biac][02240;;Saint-Godefroi][02250;;Port-Daniel][02253;;Gascons][02279;;Grande-Rivi&#232;re][02290;;Cap
+      d&#180;Espoir][02310;;Pointe-Saint-Pierre][02319;;GASP&#201;
+      (SANDY
+      BEACH)][02320;;Gasp&#233;][02330;;Rivi&#232;re-au-Renard
+      *][02340;;Cloridorme][02350;;Grande-Vall&#233;e][02360;;Port-Menier][02375;;Pointe
+      du Sud-Ouest][02410;;Pointe
+      Heath][02460;;Pointe-Nord][02470;;Mingan][02480;;Havre-Saint-Pierre][02490;;Baie
+      Johan-Beetz][02510;;Natashquan][02518;;Kegashka][02530;;Geths&#233;mani][02550;;Harrington
+      Harbour][02554;;T&#234;te-&#224;-la-Baleine][02556;;Baie-des-Moutons][02558;;La
+      Tabati&#232;re][02564;;Saint-Augustin][02585;;Baie de
+      Brador][02588;;Blanc-Sablon][02590;;Forteau][02595;;West St.
+      Modeste][02600;;Red Bay][02633;;Savage Cove][02635;;Flowers
+      Cove][02650;;Port Saunders][02660;;Cow Head][02670;;Norris
+      Cove][02680;;Corner Brook][02685;;Lark Harbour][02695;;Fox
+      Island][02710;;Port Harmon][02720;;St. George&#180;s
+      Bay][02750;;Rivi&#232;re-au-Tonnerre][02780;;Sept-&#206;les
+      *][02790;;Port-Cartier][02840;;Baie-Comeau][02880;;Forestville][02900;;Les
+      Escoumins][02920;;Mont-Louis][02935;;Sainte-Anne-des-Monts][02940;;Cap-Chat][02955;;Matane][02980;;Pointe-au-P&#232;re][02995;;Bic][03005;;Trois-Pistoles][02985;;Rimouski
+      *][00004;;Cutler][00005;;Seal
+      Cove][00006;;Portsmouth][00007;;Gannet Rock][00008;;Coffin
+      Point][00009;;Garnet Point][00011;;West Quoddy
+      Head][00014;;South Lubec][00016;;North Lubec][00021;;East
+      Quoddy Head][00024;;Eastport, Maine][00028;;McMaster
+      Island][00029;;Matthews Cove][00033;;Letang
+      Harbour][00041;;Long Island][00042;;Blacks
+      Harbour][00044;;Beaver Harbour][00053;;Musquash
+      Harbour][00055;;Lorneville][00102;;MacDonalds
+      Point][00103;;Cambridge Narrows][00122;;Newcastle
+      Creek][00242;;Spencers Island][00339;;West
+      Narrows][00366;;Bunker I, Wharf][00367;;Bunker I,
+      Light][00368;;Kelley's Cove][00374;;Lower
+      Wedgeport][00408;;West Head][00423;;Ingomar][00426;;Sandy
+      Point][00450;;Bridgewater][00452;;Riverport][00473;;Owls
+      Head][00479;;Blandford][00480;;Hubbards][00484;;Indian
+      Harbour][00486;;Prospect][00497;;Little Harbour][00509;;Spry
+      Harbour][00511;;Port Dufferin][00516;;Marie
+      Joseph][00575;;Port Hawkesbury][00595;;Fourchu][00620;;Big
+      Bras D'or][00635;;Neil's
+      Harbour][00653;;Johnstown][00672;;Couteau
+      Bay][00724;;Belleoram][00755;;Great St, Lawrence
+      *][00860;;St, Mary's Harbour][00893;;Lance
+      Cove][00907;;Middle Cove][00912;;Portugal Cove][00920;;Long
+      Pond][00970;;Long Beach][00973;;Hickman's
+      Harbour][00977;;Clifton][00981;;Trinity][01003;;Jamestown][01009;;Slatons
+      Brook][01010;;Newman
+      Sound][01025;;Dover-Wellington][01035;;Musgrave
+      Harbour][01048;;Seldom Come By][01053;;Farewell][01054;;Dark
+      Cove, Dildo Run][01065;;Bridgeport][01181;;Cook's
+      Harbour][01182;;Black Joke Cove][01185;;Castle
+      Island][01186;;Henley
+      Harbour][01217;;Punchbowl][01247;;Sandwich
+      Bay][01248;;Paradise River][01377;;Mostyn
+      Cove][01397;;Postville][01398;;Jackos Point][01400;;Turnavik
+      Island][01410;;Shoal Tickle][01420;;House
+      Harbour][01425;;Ford Harbour][01485;;Brownell
+      Point][01539;;Cheticamp][01547;;Belle Cote
+      Breakwater][01662;;Montague][01827;;Richibucto][01860;;Skinner's
+      Pond][01966;;Ile
+      d'Entr&#233;e][01981;;Pointe-Basse][01986;;Old
+      Harry][01987;;Leslie][01988;;Mine
+      Seleine][01990;;&#201;tang-du-Nord][02012;;Fox
+      Island][02014;;Cormoran][02028;;Bay du Vin][02029;;Robichaud
+      Spit][02034;;Gordon Point][02230;;Havre de
+      Beaubassin][02260;;Newport][02285;;Ste-Th&#233;r&#232;se-de-Gasp&#233;][02309;;Mal-Bay][02335;;Anse-&#224;-Valleau][02580;;Ile
+      des Esquimaux][02637;;Anchor Point][02638;;St,
+      Barbe][02642;;Shoal
+      Cove][02826;;Godbout][02883;;Sainte-Anne-de-Portneuf][02975;;Pointe-aux-Cenelles][03052;;Cap-aux-Oies][03058;;Saint-Bernard-Ile-aux-Coudres][03071;;Rocher
+      Neptune][03122;;Chenal de l'&#238;le Verte][03145;;Le Petit
+      P&#233;lerin][03150;;Grande &#206;le][03166;;Traverse
+      Saint-Roch][03260;;Saint-Romuald][03304;;Moulin &#224;
+      Bl&#233;][04379;;Quaqtaq][04575;;Inukjuak][05100;;Rankin
+      Inlet][07109;;Esquimalt Harbour][07480;;Boat
+      Harbour][07607;;Steveston][07654;;New Westminster
+      *][08105;;Seymous Narrows][08810;;Leroy Bay][08917;;Stryker
+      Island][08978;;Kynumpt Harbour][09058;;Price
+      Island][01098;;Springdale][00491;;Bedford Institute
+      *][01097;;Beachside][01995;;&#201;tang-de-l'Ouest][01597;;Cribbons
+      Point][08347;;Kwatsi Bay][08348;;KingCome
+      Inlet][02196;;Miguasha][08008;;Prideaux Haven][08325;;Cedar
+      Island][06380;;Ulukhaktok][03780;;Cape
+      Sheridan][03785;;Wrangel
+      Bay][04029;;Pangnirtung][04045;;Imigen Island][04215;;Ashe
+      Inlet][04279;;Kangiqsualujjuaq][04340;;Ile
+      Pikiyulik][04345;;Ile Basking][04400;;Stupart
+      Bay][04415;;Doctor Island][04490;;Port de
+      Laperriere][04648;;Bear Island][04662;;Roggan
+      River][04688;;Hook Island][04720;;Strutton
+      Island][04790;;Ship Sands Island][04800;;Nicholson
+      Creek][04840;;Fort Albany][05906;;Whaler Point][05912;;Port
+      Bowen][05917;;Bellot Strait East][05918;;Fury
+      Point][05935;;Cape Kater][05940;;Cape
+      Augherston][05948;;Lavoie Islands (Bernier
+      Bay)][05960;;Martin Islands][06787;;Cameron
+      Island][05643;;Natkusiak Peninsula][06497;;Pelly
+      Island][05970;;Crown Prince Frederick][05975;;Cape
+      Chapman][05976;;Cape Berens][05978;;Cape Miles][05990;;Cape
+      Sibbald][05992;;Cape Barclay][05998;;Dease
+      Peninsula][06160;;Shepherd Bay][06515;;Kay
+      point][08035;;Heriot Bay][04681;;Loon
+      Islands][03353;;B&#233;cancour *][03265;;Pont de
+      Quebec][04245;;Cape
+      Dorset][09883;;Pas883][09966;;Pas966][08145;;Shoal
+      Bay][08258;;Lagoon Cove][08812;;Boswell Inlet][09511;;Houston
+      Stewart Channel][09667;;Nesto Inlet][09958;;Henslung
+      Cove][03000;;Ile Bicquette][03246;;Saint-Charles][02945;;Le
+      Gros Mechins][02815;;Baie-Trinite][02583;;Middle
+      Bay][02577;;Vieux-Fort][02415;;Baie-du-Renard][02314;;Anse-a-Brillant][02295;;Anse-a-Beaufils][02269;;Chandler][03466;;Grande-Anse][02581;;Baie
+      Chevalier][01345;;Rabbit Island][06144;;Oscar
+      Bay][03424;;Baie-Ste-Catherine][07808;;Darrell
+      Bay][07707;;Kitsilano][09346;;Prince Rupert
+      RoRo][04296;;Koksoak Narrows][04297;;Mackays
+      Island][05193;;Paliak Islands][05800;;Pond
+      Inlet][06213;;Island NE of M'Clintock Point][05161;;Schooner
+      Cove][04275;;Beacon Isle Ungava][05195;;Bennett
+      Bay][05190;;Cape Dobbs][06140;;Cape Felix][05930;;Fort
+      Ross][06225;;Jenny Lind
+      Island][01976;;Havre-aux-Maisons][03838;;Alexandra
+      Fiord]</value>
+    </multiRef>
+    <multiRef id="id0" soapenc:root="0"
+    soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xsi:type="ns8:Metadata" xmlns:ns8="http://wds.dfo.gc.ca"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+      <name xsi:type="xsd:string">contact</name>
+      <value xsi:type="xsd:string">Canadian Hydrographic Service
+      (chsinfo@dfo-mpo.gc.ca)</value>
+    </multiRef>
+    <multiRef id="id4" soapenc:root="0"
+    soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xsi:type="ns9:Metadata" xmlns:ns9="http://wds.dfo.gc.ca"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+      <name xsi:type="xsd:string">name</name>
+      <value xsi:type="xsd:string">Water Level Prediction Web
+      Service</value>
+    </multiRef>
+    <multiRef id="id8" soapenc:root="0"
+    soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xsi:type="ns10:Metadata" xmlns:ns10="http://wds.dfo.gc.ca"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+      <name xsi:type="xsd:string">station_id_position</name>
+      <value xsi:type="xsd:string">
+      [05310,69.7833,-82.1167][05330,69.8333,-84.2167][05358,69.1017,-79.0950][05430,74.5167,-82.4167][05490,74.5500,-90.1667][05500,74.7167,-91.0833][05510,74.7167,-91.9000][05560,74.6833,-94.8833][05600,75.0333,-98.0333][05615,74.2000,-99.1667][05645,74.7833,-110.8000][05650,73.2667,-115.1833][05790,72.1065,-80.7443][05791,71.8936,-80.8555][05795,72.5763,-80.3527][05860,73.0697,-84.5483][05865,73.0333,-85.1667][05985,68.5500,-89.8833][06100,71.9833,-95.1667][04205,62.8500,-69.8833][06150,69.5333,-93.5167][03045,47.6217,-70.1408][03048,47.5588,-70.2018][03057,47.4488,-70.3655][03060,47.4255,-70.4557][03070,47.1997,-70.6358][03080,47.0435,-70.8447][03087,47.0185,-70.9255][03095,46.8812,-71.1447][03100,46.9965,-70.8082][03105,46.9167,-70.9000][03110,46.8582,-71.0033][03120,48.0333,-69.4167][03125,47.9333,-69.5167][03130,47.8500,-69.5667][03140,47.8000,-69.7667][03160,47.4870,-70.0258][03170,47.2162,-70.2747][03175,47.1360,-70.3732][03180,47.0500,-70.5333][03190,47.0195,-70.6708][03200,46.9362,-70.7373][03250,46.8325,-71.1578][03251,46.7917,-71.2273][03264,46.7550,-71.2715][03270,46.7120,-71.3788][03280,46.6965,-71.5728][03295,46.6708,-71.8460][03300,46.6812,-71.8771][03325,46.5853,-72.0388][03335,46.5610,-72.1058][03337,46.5498,-72.1343][03345,46.5003,-72.2458][03350,46.4402,-72.3397][03360,46.3405,-72.5392][03425,48.1383,-69.7140][03460,48.3340,-70.8692][03480,48.4308,-71.0548][03765,82.5000,-62.3167][03790,81.7333,-64.7333][03840,78.6667,-74.1667][03940,69.8333,-70.3667][03960,68.3833,-66.7500][03970,67.9333,-64.9333][03980,67.5167,-64.0667][03995,66.5500,-61.6667][04040,66.6000,-67.3167][04070,63.3167,-64.1500][04100,63.2149,-67.9904][04120,63.4745,-68.0232][04135,63.6000,-68.0667][04140,63.7127,-68.5025][04160,61.6167,-64.7333][03030,47.8407,-69.8732][04170,61.3500,-64.9167][00010,44.7667,-66.7500][00015,44.8833,-66.9500][00020,44.9333,-66.9333][00025,44.9667,-67.0167][00030,45.0500,-66.8667][00035,45.2000,-67.2833][00040,45.0667,-67.0500][00046,45.1000,-66.4333][00060,45.2333,-66.0500][00065,45.2667,-66.0667][00085,45.4000,-66.0000][00098,45.5833,-66.0333][00108,45.8500,-66.2333][00120,45.9667,-66.6500][00129,45.3500,-65.5333][00140,45.5667,-64.9667][00150,45.6000,-64.7833][00160,45.7167,-64.6167][00170,45.8500,-64.5833][00190,45.7500,-64.4833][00215,45.6833,-64.4667][00225,45.4667,-64.8500][00235,45.3500,-64.8167][00236,45.3333,-64.7833][00240,45.2833,-64.7667][00245,45.4000,-64.5500][00247,45.4000,-64.4167][00250,45.3667,-64.3833][00255,45.3667,-64.3333][00260,45.3833,-64.0667][00270,45.3000,-63.8000][00001,44.6000,-66.8000][00282,45.0667,-64.1667][00290,45.2667,-64.3500][00300,45.3167,-64.4333][00305,45.2333,-64.5167][00312,45.2500,-64.9667][00315,45.0500,-65.0667][00320,44.8000,-65.5333][00325,44.6333,-65.7500][00330,44.6667,-65.8333][00333,44.4000,-66.2000][00334,44.5500,-66.0333][00335,44.5000,-66.1000][00336,44.4833,-66.0833][00337,44.3833,-66.2167][00338,44.4000,-66.2167][00340,44.2667,-66.3500][00345,46.2000,-60.2500][00353,44.3333,-66.1167][00355,44.2000,-66.1667][00360,43.9833,-66.1500][00365,43.8333,-66.1167][00370,43.7000,-66.0667][00375,43.7333,-65.9833][00378,43.8500,-65.9833][00380,43.8333,-65.9500][00382,43.6667,-65.8167][00385,43.6333,-65.7667][00390,43.5333,-65.7333][00395,43.5000,-66.0000][00400,43.4833,-66.0000][00405,43.4500,-65.6333][00410,43.4333,-65.6333][00415,43.5333,-65.6167][00420,43.5167,-65.4667][00425,43.7500,-65.3000][00430,43.7000,-65.1167][00435,43.9333,-64.8500][00440,44.0500,-64.7167][00455,44.3667,-64.3167][00475,44.5833,-64.0667][00482,44.6500,-63.9500][00485,44.5167,-63.9333][00488,44.4833,-63.6000][00490,44.6667,-63.5833][00493,44.7833,-63.2333][00495,44.7667,-63.0500][00500,44.7833,-62.7500][00505,44.8333,-62.6000][00510,44.9167,-62.5333][00512,44.9000,-62.3167][00514,44.9667,-62.1333][00515,45.0167,-62.0000][00520,45.0500,-61.9167][00525,45.1333,-61.9833][00530,45.1000,-61.7333][00535,45.1833,-61.6667][00540,45.2167,-61.3833][00545,45.2333,-61.1833][00550,43.9667,-59.8000][00555,45.3333,-61.0000][06472,70.2667,-129.6500][06476,69.9500,-131.4167][06485,69.4382,-132.9944][06495,69.6833,-134.8333][06505,68.9333,-137.2000][06525,69.5667,-138.9167][06560,75.7667,-84.2167][06570,76.4167,-83.0833][06580,76.4167,-89.0667][06640,79.9851,-85.9090][06660,80.4167,-86.1667][06670,80.6000,-79.5833][06730,82.8833,-73.5000][06735,83.1167,-69.6667][06758,75.3833,-96.9500][06765,76.0833,-97.7333][06780,76.8667,-96.7000][06910,78.7833,-103.5333][06955,76.2833,-119.4667][07013,48.3750,-123.9183][07020,48.3696,-123.7260][07024,48.3720,-123.6823][07030,48.3353,-123.6037][07080,48.3320,-123.5502][07110,48.4356,-123.4278][07120,48.4244,-123.3710][07125,48.4572,-123.4158][07130,48.4237,-123.3026][07140,48.4734,-123.2959][07260,48.6492,-123.3935][07277,48.6536,-123.4517][07284,48.4966,-123.5529][07310,48.7404,-123.6185][07315,48.8149,-123.6099][07330,48.7688,-123.4500][07345,48.7748,-123.0997][07350,48.7481,-123.2281][07360,48.8033,-123.2759][07407,48.8535,-123.4976][07414,48.8467,-123.3250][07420,48.8901,-123.3877][07450,48.8747,-123.6435][07455,48.9258,-123.7144][07460,48.9980,-123.8170][07471,48.9802,-123.6772][07510,48.7928,-123.1095][07525,48.8730,-123.2943][07532,48.8834,-123.3255][07535,49.0135,-123.5734][06210,68.6550,-97.7400][04255,64.4167,-77.8750][04265,60.4167,-64.8500][04295,58.5333,-68.2000][04298,58.1000,-68.3167][04315,58.7333,-69.8333][04325,59.3500,-69.6333][04335,60.0167,-69.7000][04425,61.5950,-72.2500][04435,61.9167,-72.6167][04460,62.1500,-74.7500][04470,62.2167,-75.6500][04480,62.5667,-77.8667][04500,63.2000,-77.5500][04538,60.8000,-78.2167][04548,60.0000,-77.7500][04597,56.5500,-76.6333][04600,56.3167,-78.8333][04604,56.1333,-76.7167][04610,55.9000,-79.0667][04628,56.6167,-79.2167][04645,55.2667,-77.7667][04655,54.7667,-79.7333][04680,53.8500,-79.1500][04710,52.2500,-78.5500][04730,51.9667,-79.3000][04740,51.6333,-79.0333][04780,51.4167,-80.3500][04810,51.2833,-80.6333][04880,54.3500,-81.0833][04920,55.2833,-85.1000][04980,57.0000,-92.5000][05010,58.7833,-94.2000][05040,61.1500,-94.0167][05055,62.1667,-92.5667][05070,62.6833,-91.2000][05090,62.7912,-92.0944][05140,63.3333,-90.6833][05159,64.0000,-94.2167][05180,64.1333,-83.1667][05200,66.5267,-86.2583][09082,52.7813,-129.2987][09090,53.0235,-128.9065][09105,52.9643,-129.6055][09115,53.0735,-129.1171][09130,53.4242,-129.2519][09140,-53.9886,128.6960][09150,53.4784,-128.1241][09165,53.1567,-129.7392][09195,53.5523,-129.5762][09230,53.5986,-130.5430][09242,53.8028,-130.3574][08482,51.1217,-127.2735][07577,49.0211,-122.8058][07590,49.0068,-123.1293][07594,49.1000,-123.3000][07735,49.2871,-123.1098][07755,49.2877,-122.8658][07795,49.3375,-123.2536][07811,49.6946,-123.1550][07820,49.4016,-123.5050][07830,49.5115,-123.9121][07836,49.6329,-124.0575][07843,49.7450,-123.9017][07852,49.4825,-123.7596][07865,49.7215,-124.1792][07868,49.7820,-124.1779][07875,49.7932,-124.6205][07880,49.8705,-124.5549][07885,49.9811,-124.7620][07892,50.0297,-124.9362][07895,49.9505,-124.9978][07917,49.1667,-123.9333][07930,49.2649,-124.1381][07935,49.2936,-124.0854][07938,49.3027,-124.2022][07953,49.4962,-124.6760][07955,49.5341,-124.8222][07965,49.6695,-124.9270][07982,49.4830,-124.3500][07990,49.7004,-124.5510][07993,49.7413,-124.9233][08015,50.3212,-124.7419][08025,50.2607,-124.9549][08037,50.0920,-124.9889][08038,50.1077,-125.0518][08045,50.2272,-125.1117][08060,50.3925,-125.1358][08065,50.5979,-124.8694][08069,50.8727,-124.8357][08074,50.0423,-125.2473][08110,50.1620,-125.3745][08120,50.3109,-125.2232][08150,50.4424,-125.4919][08180,50.3315,-125.4421][08195,50.3868,-125.6195][08215,50.3978,-125.9612][08245,50.4957,-126.0871][08250,50.5683,-126.2683][08280,50.5870,-126.9306][08290,50.5931,-127.0935][08310,50.6745,-125.7352][08313,50.6391,-126.2130][08340,50.7199,-126.7004][08364,50.8860,-126.8260][08371,50.9510,-126.8117][08379,50.8970,-126.8960][08384,50.9130,-127.0260][08394,50.8859,-127.2425][08408,50.7224,-127.4890][08426,50.8987,-127.5257][08458,51.0403,-126.7336][08464,51.0842,-127.2547][08476,51.1755,-127.4093][07550,49.1497,-123.6988][06240,69.1167,-105.0667][06290,67.8167,-115.0833][06310,68.7833,-114.7333][06338,69.6167,-120.7833][06340,69.8167,-122.6667][06350,69.3500,-124.0667][06360,70.1500,-124.6667][06367,69.9500,-126.9167][06424,71.9667,-125.2500][06443,70.5167,-128.3500][06457,69.5333,-130.9333][09305,54.0238,-130.6140][09306,54.0534,-130.5415][09312,54.1048,-130.3341][09315,54.2080,-130.7679][09325,54.4460,-130.7260][09333,54.6144,-130.8518][09342,54.2289,-130.2956][09354,-54.3174,130.3241][09390,54.5602,-130.4310][09418,54.8370,-130.1748][09422,54.9990,-129.9780][09443,55.4160,-129.8180][09448,55.4700,-129.4960][09475,55.9170,-130.0104][09502,51.9379,-131.0151][09512,52.0947,-131.1410][09570,52.7658,-132.0467][09625,53.1482,-132.3224][09635,53.1630,-132.4590][09724,52.3597,-131.1807][09765,52.7133,-131.5767][09775,52.8313,-131.8824][09790,53.0414,-131.6644][09850,53.2520,-132.0717][09910,54.0097,-132.1493][09920,53.6883,-132.1865][09927,53.6283,-132.3189][09940,54.1124,-132.3098][09961,54.2245,-132.9642][09964,54.2557,-133.0448][09250,53.9870,-130.1830][08488,51.1607,-126.9821][08525,48.5551,-124.4208][08545,48.8360,-125.1359][08565,49.1076,-124.8115][08575,49.2331,-124.8139][08585,48.8777,-125.3130][08588,48.9930,-125.3463][08595,48.9465,-125.5520][08615,49.1537,-125.9130][08623,49.1404,-125.6714][08626,49.2386,-125.7449][08630,49.2609,-125.8710][08632,49.3463,-125.9840][08634,49.4043,-126.0680][08637,49.3908,-126.2255][08645,49.6223,-126.6168][08650,49.6785,-126.1258][08670,49.9785,-126.8459][08710,50.0265,-127.3758][08735,50.5128,-128.0290][08736,50.4742,-128.0303][08750,50.3836,-127.4545][08756,50.5563,-127.5543][08765,50.5986,-127.5808][08790,50.7799,-128.4300][08805,51.2492,-127.8364][08814,51.3333,-127.1833][08840,51.5097,-127.5238][08860,51.6044,-127.8265][08865,51.6898,-128.1064][08868,51.7770,-128.0717][08870,51.8614,-127.8662][08906,51.8990,-128.4420][08912,51.8422,-128.2303][08937,52.3743,-126.7959][08958,52.1736,-127.9095][08962,52.3521,-127.6926][08976,52.1626,-128.1428][08981,52.2420,-128.0390][08996,52.4380,-128.0836][09005,52.3121,-128.3509][09020,52.7700,-128.3460][09035,52.5942,-128.5215][09056,52.4833,-128.7500][09063,52.6088,-128.7694][09067,52.7575,-129.0728][09077,52.6503,-129.4719][00097,45.6500,-65.8667][03248,46.8110,-71.2020][05275,68.7500,-81.2167][05295,69.3667,-81.7667][09708,52.1200,-131.0333][00563,45.5167,-61.2667][00570,45.6500,-61.4000][00576,45.6000,-61.3667][00580,45.5167,-61.0333][00582,45.5000,-60.9667][00585,45.6333,-60.9667][00600,45.9167,-59.9667][00610,46.1500,-60.2000][00612,46.2167,-60.2500][00621,46.3333,-60.3667][00622,46.2811,-60.4240][00623,46.3000,-60.4000][00630,46.6333,-60.3833][00638,46.9000,-60.4667][00663,47.5333,-59.3667][00665,47.5833,-59.1500][00666,47.5667,-58.9667][00690,47.6333,-56.1667][00705,47.8667,-55.8333][00710,47.5667,-55.9333][00720,47.4667,-55.8000][00745,46.8167,-56.1833][00795,47.5833,-54.2000][00805,47.7833,-54.1667][00810,47.8500,-54.1000][00815,47.8167,-54.0167][00818,47.7500,-54.0000][00830,47.4333,-54.8167][00835,47.3000,-53.9833][00845,46.9167,-54.1833][00880,46.7333,-53.3667][00890,46.9667,-52.9667][00898,47.2667,-52.7833][00905,47.5667,-52.7000][00915,47.6333,-52.9333][00925,47.3500,-53.1167][00935,47.6833,-53.2167][00955,47.8667,-53.3667][00975,48.1667,-53.9667][00985,48.5000,-53.0833][00990,49.0833,-53.2000][01008,48.4333,-54.0167][01015,48.6833,-53.6333][01018,48.6833,-54.0000][01030,49.1667,-53.6167][01040,49.4000,-54.2833][01049,49.7000,-54.0500][01050,49.7333,-54.2833][01052,49.6667,-54.4167][01056,49.4833,-54.7333][01060,49.6500,-54.7667][01070,49.2333,-55.0500][01080,49.1333,-55.3333][01085,49.5167,-55.0667][01095,49.6000,-55.9167][01102,49.8833,-55.6167][01105,49.9632,-55.6030][01110,49.9500,-56.1833][01115,49.4333,-56.3667][01125,49.5667,-56.8667][01135,49.8333,-56.7667][01165,51.3333,-55.9500][01170,51.3667,-55.5833][01180,51.6333,-55.6333][01190,52.2667,-55.6000][01195,52.3833,-55.7333][01200,52.5333,-55.8333][01202,52.7350,-55.8300][01205,52.5500,-56.1167][01210,52.5500,-56.3000][01245,53.7000,-57.0333][01267,54.2167,-58.2333][01280,54.1833,-58.4333][01285,54.0500,-58.5833][01320,53.7167,-59.0333][01335,53.5235,-60.1340][01350,53.3500,-60.4000][01365,54.4667,-57.2500][01370,54.5333,-57.1833][01390,55.0833,-59.1667][01405,55.4500,-60.2167][01416,55.8833,-60.9000][01430,56.5333,-61.6833][01465,58.1833,-62.6167][01490,60.0000,-64.2667][01520,47.0167,-60.4500][01530,47.2000,-60.1500][01540,46.6000,-61.0500][01545,46.4333,-61.1167][01546,46.4500,-61.1167][01548,46.4000,-61.0833][01550,46.3000,-61.2667][01560,46.0167,-61.5333][01570,45.6500,-61.4333][01580,45.7000,-61.5500][01590,45.6667,-61.9167][01600,45.8667,-61.9167][01610,45.7667,-62.1667][01620,45.6500,-62.4500][01630,45.6833,-62.7000][01635,45.8000,-62.5833][01640,45.7333,-62.6833][01650,46.3500,-62.2500][01660,46.1833,-62.5333][01665,46.1000,-62.4500][01670,46.0167,-62.4833][01680,45.9500,-62.7500][01690,46.0500,-63.0333][01700,46.2167,-63.1333][01710,46.1500,-63.3000][01715,46.2167,-63.5000][01725,46.2500,-63.7000][01735,46.3833,-63.7833][01745,45.8000,-63.0500][01760,45.7833,-63.2833][01770,45.8833,-63.4667][01775,45.8500,-63.6833][01780,46.0000,-64.0167][01785,46.0500,-64.0667][01790,46.1333,-63.7667][01800,46.2333,-64.2333][01805,46.2500,-64.5333][01810,46.3333,-64.5167][01812,46.3333,-64.6167][01815,46.4500,-64.6333][01820,46.6667,-64.7000][01825,46.7167,-64.7833][01830,46.9833,-64.8167][01835,46.4000,-64.1333][01845,46.6300,-64.4000][01855,46.8833,-64.2333][01865,47.0667,-63.9833][01875,46.9500,-64.0000][01885,46.8000,-64.0667][01896,46.6500,-63.9167][01905,46.5333,-63.7000][01915,46.4667,-63.2833][01925,46.4333,-62.8500][01935,46.4333,-62.7333][01945,46.4667,-62.4167][01955,46.4667,-62.0667][01960,47.2183,-61.9850][01964,47.2333,-61.8333][01970,47.3789,-61.8573][01985,47.5500,-61.5500][02000,47.0833,-64.8833][02010,47.1667,-65.0500][02020,47.2667,-65.0667][02022,47.2500,-65.0833][02025,47.2000,-65.1333][02030,47.1167,-65.2667][02033,47.0667,-65.3833][02035,47.0333,-65.4667][02040,47.0000,-65.5667][02060,47.5167,-64.8667][02070,47.7167,-64.6667][02071,47.7500,-64.7000][02090,47.9000,-64.5833][02110,47.8000,-64.9333][02120,47.7500,-65.3500][02130,47.6167,-65.6500][02145,47.9000,-65.8500][02165,48.0667,-66.3833][02175,48.0167,-66.6667][02200,48.1000,-66.1333][02215,48.1378,-65.8368][02235,48.0180,-65.2570][02240,48.0733,-65.1133][02250,48.1827,-64.9613][02253,48.1907,-64.8615][02279,48.3927,-64.4925][02290,48.4167,-64.3333][02310,48.6333,-64.1667][02319,48.8260,-64.4407][02320,48.8333,-64.4833][02330,48.9970,-64.3805][02340,49.1833,-64.8333][02350,49.2333,-65.1333][02360,49.8167,-64.3667][02375,49.3950,-63.5900][02410,49.0842,-61.6970][02460,49.9517,-64.1500][02470,50.2892,-64.0202][02480,50.2333,-63.6167][02490,50.2833,-62.8000][02510,50.1892,-61.8415][02518,50.1833,-61.2667][02530,50.2167,-60.6833][02550,50.4967,-59.4767][02554,50.6800,-59.2400][02556,50.7670,-59.0335][02558,50.8382,-58.9765][02564,51.1667,-58.5333][02585,51.4667,-57.2667][02588,51.4167,-57.1500][02590,51.4500,-56.8833][02595,51.6000,-56.7000][02600,51.7167,-56.4167][02633,51.3333,-56.7000][02635,51.3000,-56.7333][02650,50.6500,-57.3000][02660,49.4333,-57.8000][02670,49.5167,-57.8667][02680,48.9500,-57.9500][02685,49.1000,-58.3667][02695,48.7333,-58.7000][02710,48.5167,-58.5333][02720,48.4333,-58.5000][02750,50.2733,-64.7610][02780,50.2167,-66.4000][02790,50.0333,-66.7833][02840,49.2313,-68.1310][02880,48.7383,-69.0522][02900,48.3462,-69.3888][02920,49.2333,-65.7333][02935,49.1340,-66.4858][02940,49.0983,-66.6815][02955,48.8402,-67.5775][02980,48.5167,-68.4667][02995,48.3667,-68.7333][03005,48.1347,-69.1868][02985,48.4783,-68.5137][00004,44.6500,-67.2167][00005,44.6500,-66.8500][00006,43.0833,-70.7333][00007,44.5167,-66.7833][00008,44.8667,-67.1333][00009,44.9167,-67.1167][00011,44.8167,-66.9667][00014,44.8667,-66.9833][00016,44.8667,-66.9833][00021,44.9667,-66.9000][00024,44.9000,-66.9833][00028,45.0500,-66.9333][00029,45.0500,-66.8667][00033,45.0833,-66.7833][00041,45.1500,-66.9667][00042,45.0500,-66.8000][00044,45.0667,-66.7333][00053,45.1500,-66.2500][00055,45.2000,-66.1500][00102,45.7167,-66.0500][00103,45.8333,-65.9500][00122,46.0667,-66.0000][00242,45.3500,-64.7167][00339,44.4000,-66.2167][00366,43.8167,-66.1333][00367,43.8167,-66.1500][00368,43.7833,-66.1333][00374,43.7167,-65.9833][00408,43.4667,-65.6500][00423,43.5667,-65.3333][00426,43.7000,-65.3333][00450,44.3667,-64.5000][00452,44.2833,-64.3333][00473,44.5833,-63.9167][00479,44.5000,-64.0833][00480,44.6333,-64.0500][00484,44.5167,-63.9333][00486,44.4500,-63.7833][00497,44.7167,-62.8500][00509,44.8333,-62.6167][00511,44.9000,-62.3667][00516,44.9667,-62.0833][00575,45.6167,-61.3667][00595,45.7167,-60.2500][00620,46.2833,-60.4333][00635,46.8000,-60.3167][00653,45.8000,-60.7500][00672,47.7167,-58.0500][00724,47.5333,-55.4167][00755,46.9000,-55.3667][00860,46.9333,-53.5833][00893,47.0833,-52.9000][00907,47.6667,-52.7000][00912,47.6167,-52.8667][00920,47.5167,-52.9833][00970,47.9833,-53.8000][00973,48.1000,-53.7333][00977,48.1833,-53.7333][00981,48.3667,-53.3500][01003,48.4333,-53.8000][01009,48.5833,-53.9500][01010,48.5833,-53.9500][01025,0.0000,0.0000][01035,49.0333,-53.0833][01048,49.6167,-54.1833][01053,49.5500,-54.4667][01054,49.5333,-54.7500][01065,49.5500,-54.8833][01181,51.6167,-55.8667][01182,52.0167,-55.8667][01185,51.9667,-55.8500][01186,51.9833,-55.8500][01217,53.2500,-55.7667][01247,53.5667,-57.1667][01248,53.4333,-57.2833][01377,54.7500,-57.9833][01397,54.9000,-59.7833][01398,59.4500,-55.1167][01400,55.2833,-59.3333][01410,55.7667,-60.3667][01420,56.2333,-61.0500][01425,56.4500,-61.2000][01485,59.4167,-63.8500][01539,46.6333,-61.0167][01547,46.4333,-61.0833][01662,46.1667,-62.6500][01827,46.6833,-64.8667][01860,46.9500,-64.1167][01966,47.2774,-61.7186][01981,47.3900,-61.7883][01986,47.5717,-61.4667][01987,47.6283,-61.5150][01988,47.6117,-61.5600][01990,47.3700,-61.9583][02012,47.1167,-65.0500][02014,47.1167,-65.1500][02028,47.0500,-65.1667][02029,47.1167,-65.2500][02034,47.0833,-65.4000][02230,48.0333,-65.4833][02260,48.2843,-64.7193][02285,48.4150,-64.3952][02309,48.6202,-64.2000][02335,49.0833,-64.5333][02580,51.4240,-57.7025][02637,51.2333,-56.8000][02638,51.2000,-56.7667][02642,51.0167,-57.0167][02826,49.3167,-67.6000][02883,48.6333,-69.0833][02975,48.6428,-68.1667][03052,47.4872,-70.2327][03058,47.4205,-70.3922][03071,47.1617,-70.6075][03122,48.0247,-69.4080][03145,47.7010,-69.7583][03150,47.6242,-69.8608][03166,47.4073,-70.2400][03260,46.7613,-71.2403][03304,46.6507,-71.8898][04379,61.0333,-69.6333][04575,58.4500,-78.1000][05100,62.8167,-92.0667][07109,48.4405,-123.4498][07480,49.0900,-123.7977][07607,49.1238,-123.1869][07654,49.2002,-122.9104][08105,50.1354,-125.3457][08810,51.2728,-127.6636][08917,52.0925,-128.3475][08978,52.2083,-128.1617][09058,52.2783,-128.6750][01098,49.4833,-56.0500][00491,44.6833,-63.6167][01097,49.6333,-55.8833][01995,47.2500,-62.0167][01597,45.7500,-61.9000][08347,50.8647,-126.2494][08348,50.9087,-126.1995][02196,48.1065,-66.3538][08008,50.1443,-124.6757][08325,50.6567,-126.6750][06380,70.7333,-117.7500][03780,82.4500,-61.5000][03785,82.0000,-62.5000][04029,66.1409,-65.8284][04045,66.0167,-67.1500][04215,62.5500,-70.5833][04279,58.6833,-65.9500][04340,60.0000,-69.9167][04345,59.9833,-70.0833][04400,61.5833,-71.5333][04415,61.6833,-71.5667][04490,62.5667,-78.0667][04648,55.1000,-78.3500][04662,54.3833,-79.5000][04688,53.4333,-79.1167][04720,52.0333,-78.8667][04790,51.3333,-80.4333][04800,51.3000,-80.5667][04840,52.1167,-81.3667][05906,73.8167,-90.2833][05912,73.2833,-89.0500][05917,72.0167,-94.3333][05918,72.9000,-91.8000][05935,71.9667,-90.0667][05940,70.4833,-93.2833][05948,71.0167,-87.5333][05960,70.3167,-91.6667][06787,76.3167,-104.0333][05643,73.0167,-110.4667][06497,69.6167,-135.3667][05970,70.0000,-87.1000][05975,69.3000,-89.2500][05976,69.0667,-90.6333][05978,69.3333,-90.4667][05990,68.3333,-85.7667][05992,68.2333,-88.1333][05998,67.2667,-87.3167][06160,68.7667,-93.5667][06515,69.2833,-138.4333][08035,50.1000,-125.2167][04681,53.8167,-79.1667][03353,46.4003,-72.3795][03265,46.8325,-71.1578][04245,64.2297,-76.4950][09883,46.9248,-70.8690][09966,47.1585,-70.6582][08145,50.4603,-125.3610][08258,50.5978,-126.3186][08812,51.3721,-127.4651][09511,52.0775,-131.1250][09667,53.5567,-132.9250][09958,54.1917,-133.0042][03000,48.4155,-68.8933][03246,46.8245,-71.1983][02945,49.0058,-66.9775][02815,49.2873,-67.2842][02583,51.7667,-57.8167][02577,51.4267,-57.8142][02415,49.2667,-61.8333][02314,48.7207,-64.2906][02295,48.4717,-64.3083][02269,48.3420,-64.6570][03466,48.4017,-70.8328][02581,51.4325,-57.6385][01345,53.4010,-60.1387][06144,69.7798,-95.8339][03424,48.1263,-69.7298][07808,49.6685,-123.1689][07707,49.2766,-123.1394][09346,54.2348,-130.3348][04296,58.3968,-68.2122][04297,58.2606,-68.2678][05193,65.3867,-89.0454][05800,72.7167,-77.9833][06213,69.3485,-99.8635][05161,63.9892,-94.2686][04275,58.8933,-66.3450][05195,65.8751,-89.5286][05190,65.0588,-86.6808][06140,69.9380,-97.9035][05930,72.0167,-94.2333][06225,68.6533,-101.7567][01976,47.4053,-61.8360][03838,78.9200,-75.5167]</value>
+    </multiRef>
+    <multiRef id="id1" soapenc:root="0"
+    soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xsi:type="ns11:Metadata" xmlns:ns11="http://wds.dfo.gc.ca"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+      <name xsi:type="xsd:string">date</name>
+      <value xsi:type="xsd:string">2012-06-07</value>
+    </multiRef>
+    <multiRef id="id2" soapenc:root="0"
+    soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xsi:type="ns12:Metadata" xmlns:ns12="http://wds.dfo.gc.ca"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+      <name xsi:type="xsd:string">language</name>
+      <value xsi:type="xsd:string">English</value>
+    </multiRef>
+    <multiRef id="id3" soapenc:root="0"
+    soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xsi:type="ns13:Metadata" xmlns:ns13="http://wds.dfo.gc.ca"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+      <name xsi:type="xsd:string">topic</name>
+      <value xsi:type="xsd:string">This web service gives access to
+      water level predictions all over Canada</value>
+    </multiRef>
+    <multiRef id="id10" soapenc:root="0"
+    soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+    xsi:type="ns14:Metadata" xmlns:ns14="http://wds.dfo.gc.ca"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+      <name xsi:type="xsd:string">
+      metadata_selection_accepted</name>
+      <value xsi:type="xsd:string">station_id,station_name</value>
+    </multiRef>
+  </soapenv:Body>
+</soapenv:Envelope>
