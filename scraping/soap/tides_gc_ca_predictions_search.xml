@@ -1,0 +1,21 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v1="http://schemas.conversesolutions.com/xsd/dmticta/v1">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <v1:search>
+      <dataname>hilo</dataname>
+      <latitudeMin>-90</latitudeMin>
+      <latitudeMax>90</latitudeMax>
+      <longitudeMin>-180</longitudeMin>
+      <longitudeMax>180</longitudeMax>
+      <depthMin>0</depthMin>
+      <depthMax>0</depthMax>
+      <dateMin>2019-08-01 00:00:00</dateMin>
+      <dateMax>2019-08-02 23:59:59</dateMax>
+      <start>1</start>
+      <sizeMax>100</sizeMax>
+      <metadata>true</metadata>
+      <metadataSelection>station_name=Rimouski</metadataSelection>
+      <order>asc</order>
+    </v1:search>
+  </soapenv:Body>
+</soapenv:Envelope>
