@@ -1,13 +1,8 @@
 use std::convert::TryInto;
 use std::env;
+use wtiirn::{pages, stations};
 
 use simple_server::{Method, Server, StatusCode};
-
-mod compute;
-mod model;
-
-mod pages;
-mod stations;
 
 fn main() {
     let host = env::var("WTIIRN_HOST").unwrap_or_else(|_| "127.0.0.1".to_string());
