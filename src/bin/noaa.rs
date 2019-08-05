@@ -5,7 +5,7 @@ use wtiirn::noaa_api;
 
 // Taken from the examples section of the NOAA website
 // https://opendap.co-ops.nos.noaa.gov/axis/webservices/highlowtidepred/samples/response.xml
-const RESPONSE: &'static str = include_str!("../../scraping/noaa_response.xml");
+const RESPONSE: &str = include_str!("../../scraping/noaa_response.xml");
 
 #[derive(Debug, Deserialize)]
 struct Envelope {

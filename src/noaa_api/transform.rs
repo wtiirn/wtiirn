@@ -47,7 +47,7 @@ mod test {
             station_name: "fake station".to_string(),
             latitude: 0.0,
             longitude: 0.0,
-            timeZone: "UTC".to_string(),
+            time_zone: "UTC".to_string(),
             unit_name: "foot".to_string(),
             values: HighLowValues {
                 values: vec![Item {
@@ -65,7 +65,7 @@ mod test {
             station_name: "fake station".to_string(),
             latitude: 0.0,
             longitude: 0.0,
-            timeZone: "UTC".to_string(),
+            time_zone: "UTC".to_string(),
             unit_name: "foot".to_string(),
             values: HighLowValues {
                 values: vec![Item {
