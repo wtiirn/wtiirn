@@ -30,7 +30,8 @@ pub struct HighLowAndMetadata {
     station_name: String,
     latitude: f64,
     longitude: f64,
-    timeZone: String,
+    #[serde(rename = "timeZone")]
+    time_zone: String,
     #[serde(rename = "unit")]
     unit_name: String,
     #[serde(rename = "HighLowValues")]
