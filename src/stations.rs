@@ -58,8 +58,14 @@ impl StationCatalogue {
         let port_lavaca_predictions = parse_predictions(LAVACA_PREDICTIONS_SRC);
 
         let station_predictions = [
-            (point_atkinson.id, predictions_with_id(point_atkinson.id ,point_atkinson_predictions)),
-            (port_lavaca.id, predictions_with_id(port_lavaca.id, port_lavaca_predictions)),
+            (
+                point_atkinson.id,
+                predictions_with_id(point_atkinson.id, point_atkinson_predictions),
+            ),
+            (
+                port_lavaca.id,
+                predictions_with_id(port_lavaca.id, port_lavaca_predictions),
+            ),
         ]
         .iter()
         .cloned()
@@ -94,18 +100,29 @@ impl StationCatalogue {
             id,
         };
         self.stations.push(station);
-        self.station_predictions.insert(id, predictions_with_id(id, predictions.to_vec()));
+        self.station_predictions
+            .insert(id, predictions_with_id(id, predictions.to_vec()));
     }
 
     pub fn predictions_for_station(&self, station: &Station) -> Option<Vec<TidePrediction>> {
         self.station_predictions
             .get(&station.id)
-            .map(|x| x.iter().map(|p| p.prediction)).map(|x| x.collect::<Vec<_>>())
+            .map(|x| x.iter().map(|p| p.prediction))
+            .map(|x| x.collect::<Vec<_>>())
     }
 }
 
-fn predictions_with_id(station_id: Uuid, predictions: Vec<TidePrediction>) -> Vec<PredictionWithId> {
-    predictions.into_iter().map(|prediction| PredictionWithId { station_id, prediction }).collect()
+fn predictions_with_id(
+    station_id: Uuid,
+    predictions: Vec<TidePrediction>,
+) -> Vec<PredictionWithId> {
+    predictions
+        .into_iter()
+        .map(|prediction| PredictionWithId {
+            station_id,
+            prediction,
+        })
+        .collect()
 }
 
 #[cfg(test)]

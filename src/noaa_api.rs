@@ -24,8 +24,10 @@ struct HighLowValues {
 
 #[derive(Debug, Deserialize)]
 pub struct HighLowAndMetadata {
-    stationId: u32,
-    stationName: String,
+    #[serde(rename = "stationId")]
+    station_id: u32,
+    #[serde(rename = "stationName")]
+    station_name: String,
     latitude: f64,
     longitude: f64,
     timeZone: String,

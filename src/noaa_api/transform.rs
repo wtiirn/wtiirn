@@ -1,18 +1,26 @@
 use chrono::prelude::*;
 use uom::si::f64::*;
 use uom::si::length::foot;
+use uuid::Uuid;
 
 use crate::model::TidePrediction;
-use crate::noaa_api::HighLowAndMetadata;
+use crate::noaa_api::{HighLowAndMetadata, HighLowValues, Item, TideData};
+use crate::stations::PredictionWithId;
 
-pub fn extract_predictions(m: &HighLowAndMetadata) -> Vec<TidePrediction> {
+pub fn extract_predictions(m: &HighLowAndMetadata) -> Vec<PredictionWithId> {
+    let name_bytes = format!("{}{}", &m.station_name, &m.station_id).into_bytes();
+    let station_id = Uuid::new_v5(&Uuid::NAMESPACE_OID, &name_bytes);
+
     m.values
         .values
         .iter()
         .flat_map(|item| {
-            item.data.iter().map(move |data| TidePrediction {
-                tide: Length::new::<foot>(data.pred.into()),
-                time: parse_date_time(&item.date, &data.time),
+            item.data.iter().map(move |data| PredictionWithId {
+                station_id,
+                prediction: TidePrediction {
+                    tide: Length::new::<foot>(data.pred.into()),
+                    time: parse_date_time(&item.date, &data.time),
+                },
             })
         })
         .collect()
@@ -32,5 +40,50 @@ mod test {
         let time = parse_date_time("01/27/2009", "01:23");
         let utc = FixedOffset::west(0);
         assert_eq!(utc.ymd(2009, 01, 27).and_hms(01, 23, 0), time);
+    }
+
+    #[test]
+    fn it_should_produce_matching_station_ids() {
+        let m = HighLowAndMetadata {
+            station_id: 1000,
+            station_name: "fake station".to_string(),
+            latitude: 0.0,
+            longitude: 0.0,
+            timeZone: "UTC".to_string(),
+            unit_name: "foot".to_string(),
+            values: HighLowValues {
+                values: vec![Item {
+                    date: "01/01/2019".to_string(),
+                    data: vec![TideData {
+                        time: "12:00".to_string(),
+                        pred: 1.0,
+                    }],
+                }],
+            },
+        };
+
+        let m2 = HighLowAndMetadata {
+            station_id: 1000,
+            station_name: "fake station".to_string(),
+            latitude: 0.0,
+            longitude: 0.0,
+            timeZone: "UTC".to_string(),
+            unit_name: "foot".to_string(),
+            values: HighLowValues {
+                values: vec![Item {
+                    date: "02/01/2019".to_string(),
+                    data: vec![TideData {
+                        time: "12:00".to_string(),
+                        pred: 2.0,
+                    }],
+                }],
+            },
+        };
+
+        let first = extract_predictions(&m);
+        let second = extract_predictions(&m2);
+
+        assert_ne!(first[0], second[0]);
+        assert_eq!(first[0].station_id, second[0].station_id);
     }
 }
