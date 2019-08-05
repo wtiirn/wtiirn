@@ -12,7 +12,7 @@ pub struct Station {
 }
 
 impl Station {
-    pub fn generate_id(name: &str, source_id: &u32) -> Uuid {
+    pub fn generate_id(name: &str, source_id: u32) -> Uuid {
         let name_bytes = format!("{}{}", name, source_id).into_bytes();
         Uuid::new_v5(&Uuid::NAMESPACE_OID, &name_bytes)
     }
@@ -212,5 +212,35 @@ mod test {
     #[test]
     fn test_parsing_predictions_file() {
         parse_predictions(ATKINSON_PREDICTIONS_SRC);
+    }
+
+    mod id_generation {
+        use super::*;
+        #[test]
+        fn it_should_generate_the_same_id_for_the_same_input() {
+            let name = "A Tide Station";
+            let source_id = 123456;
+
+            let id1 = Station::generate_id(name, source_id);
+            let id2 = Station::generate_id(name, source_id);
+            assert_eq!(id1, id2);
+        }
+
+        #[test]
+        fn it_should_generate_different_ids_for_different_inputs() {
+            let name = "A Tide Station";
+            let source_id = 123456;
+
+            let name2 = "A different station";
+
+            let id1 = Station::generate_id(name, source_id);
+            let id2 = Station::generate_id(name2, source_id);
+            assert_ne!(id1, id2);
+
+            let source_id2 = 654321;
+            let id3 = Station::generate_id(name, source_id2);
+            assert_ne!(id1, id3);
+            assert_ne!(id2, id3);
+        }
     }
 }

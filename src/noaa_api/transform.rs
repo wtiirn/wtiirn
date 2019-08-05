@@ -7,7 +7,7 @@ use crate::noaa_api::HighLowAndMetadata;
 use crate::stations::{PredictionWithId, Station};
 
 pub fn extract_predictions(m: &HighLowAndMetadata) -> Vec<PredictionWithId> {
-    let station_id = Station::generate_id(&m.station_name, &m.station_id);
+    let station_id = Station::generate_id(&m.station_name, m.station_id);
     m.values
         .values
         .iter()
@@ -40,7 +40,7 @@ mod test {
     }
 
     #[test]
-    fn it_should_produce_matching_station_ids() {
+    fn it_should_extract_the_predictions() {
         use crate::noaa_api::{HighLowValues, Item, TideData};
         let m = HighLowAndMetadata {
             station_id: 1000,
@@ -60,28 +60,14 @@ mod test {
             },
         };
 
-        let m2 = HighLowAndMetadata {
-            station_id: 1000,
-            station_name: "fake station".to_string(),
-            latitude: 0.0,
-            longitude: 0.0,
-            time_zone: "UTC".to_string(),
-            unit_name: "foot".to_string(),
-            values: HighLowValues {
-                values: vec![Item {
-                    date: "02/01/2019".to_string(),
-                    data: vec![TideData {
-                        time: "12:00".to_string(),
-                        pred: 2.0,
-                    }],
-                }],
-            },
-        };
+        let extracted = extract_predictions(&m);
 
-        let first = extract_predictions(&m);
-        let second = extract_predictions(&m2);
-
-        assert_ne!(first[0], second[0]);
-        assert_eq!(first[0].station_id, second[0].station_id);
+        assert_eq!(extracted.len(), 1);
+        assert_eq!(extracted[0].prediction.tide, Length::new::<foot>(1.0));
+        let utc = FixedOffset::west(0);
+        assert_eq!(
+            extracted[0].prediction.time,
+            utc.ymd(2019, 01, 01).and_hms(12, 00, 00)
+        );
     }
 }
