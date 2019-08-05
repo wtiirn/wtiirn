@@ -1,5 +1,4 @@
 use crate::model::{Coordinates, TidePrediction};
-use std::collections::HashMap;
 use uuid::Uuid;
 
 /// The generic information about a tide station, divorced
@@ -35,10 +34,16 @@ fn parse_predictions(src: &str) -> Vec<TidePrediction> {
 /// Queryable repository of stations.
 pub struct StationCatalogue {
     stations: Vec<Station>,
-    station_predictions: HashMap<Uuid, Vec<PredictionWithId>>,
+    predictions: Vec<PredictionWithId>,
 }
 
 impl StationCatalogue {
+    pub fn empty() -> Self {
+        StationCatalogue {
+            stations: vec![],
+            predictions: vec![],
+        }
+    }
     /// Initialize a catalogue from a suitable data source.
     /// Panics if there isn't at least one tide station in
     /// the initialized catalogue.
@@ -64,23 +69,14 @@ impl StationCatalogue {
         let point_atkinson_predictions = parse_predictions(ATKINSON_PREDICTIONS_SRC);
         let port_lavaca_predictions = parse_predictions(LAVACA_PREDICTIONS_SRC);
 
-        let station_predictions = [
-            (
-                point_atkinson.id,
-                predictions_with_id(point_atkinson.id, point_atkinson_predictions),
-            ),
-            (
-                port_lavaca.id,
-                predictions_with_id(port_lavaca.id, port_lavaca_predictions),
-            ),
-        ]
-        .iter()
-        .cloned()
-        .collect();
+        let predictions = predictions_with_id(point_atkinson.id, point_atkinson_predictions)
+            .into_iter()
+            .chain(predictions_with_id(port_lavaca.id, port_lavaca_predictions).into_iter())
+            .collect();
 
         StationCatalogue {
             stations: vec![point_atkinson, port_lavaca],
-            station_predictions,
+            predictions,
         }
     }
 
@@ -107,15 +103,18 @@ impl StationCatalogue {
             id,
         };
         self.stations.push(station);
-        self.station_predictions
-            .insert(id, predictions_with_id(id, predictions.to_vec()));
+        self.predictions
+            .append(&mut predictions_with_id(id, predictions.to_vec()));
     }
 
     pub fn predictions_for_station(&self, station: &Station) -> Option<Vec<TidePrediction>> {
-        self.station_predictions
-            .get(&station.id)
-            .map(|x| x.iter().map(|p| p.prediction))
-            .map(|x| x.collect::<Vec<_>>())
+        Some(
+            self.predictions
+                .iter()
+                .filter(|x| x.station_id == station.id)
+                .map(|x| x.prediction)
+                .collect(),
+        )
     }
 }
 
@@ -141,10 +140,7 @@ mod test {
 
     #[test]
     fn test_adding_and_finding_stations() {
-        let mut catalogue = StationCatalogue {
-            stations: vec![],
-            station_predictions: HashMap::new(),
-        };
+        let mut catalogue = StationCatalogue::empty();
         catalogue.add(
             "Point Atkinson",
             &Coordinates {
@@ -175,10 +171,7 @@ mod test {
 
     #[test]
     fn test_finding_predictions_for_station() {
-        let mut catalogue = StationCatalogue {
-            stations: vec![],
-            station_predictions: HashMap::new(),
-        };
+        let mut catalogue = StationCatalogue::empty();
         catalogue.add(
             "Point Atkinson",
             &Coordinates {
