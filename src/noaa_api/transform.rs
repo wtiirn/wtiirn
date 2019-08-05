@@ -8,7 +8,8 @@ use crate::stations::{PredictionWithId, Station};
 
 pub fn extract_predictions(m: &HighLowAndMetadata) -> Vec<PredictionWithId> {
     let station_id = Station::generate_id(&m.station_name, &m.station_id);
-    m.values .values
+    m.values
+        .values
         .iter()
         .flat_map(|item| {
             item.data.iter().map(move |data| PredictionWithId {
