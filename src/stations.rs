@@ -1,5 +1,6 @@
 use crate::model::{Coordinates, TidePrediction};
 use std::collections::HashMap;
+use uuid::Uuid;
 
 /// The generic information about a tide station, divorced
 /// from meta-data like "how are the tides predicted" and
@@ -8,7 +9,13 @@ use std::collections::HashMap;
 pub struct Station {
     pub name: String,
     pub coordinates: Coordinates,
-    pub id: u64,
+    pub id: Uuid,
+}
+
+#[derive(Debug, PartialEq, Clone)]
+pub struct PredictionWithId {
+    pub pred: TidePrediction,
+    pub station_id: Uuid,
 }
 
 static ATKINSON_PREDICTIONS_SRC: &'static str = include_str!("atkinson_predictions.json");
@@ -21,7 +28,7 @@ fn parse_predictions(src: &str) -> Vec<TidePrediction> {
 /// Queryable repository of stations.
 pub struct StationCatalogue {
     stations: Vec<Station>,
-    station_predictions: HashMap<u64, Vec<TidePrediction>>,
+    station_predictions: HashMap<Uuid, Vec<TidePrediction>>,
 }
 
 impl StationCatalogue {
@@ -35,7 +42,7 @@ impl StationCatalogue {
                 lat: 49.336,
                 lon: -123.262,
             },
-            id: 1,
+            id: Uuid::new_v4(),
         };
 
         let port_lavaca = Station {
@@ -44,7 +51,7 @@ impl StationCatalogue {
                 lat: 28.6406,
                 lon: -96.6098,
             },
-            id: 2,
+            id: Uuid::new_v4(),
         };
 
         let point_atkinson_predictions = parse_predictions(ATKINSON_PREDICTIONS_SRC);
@@ -80,7 +87,7 @@ impl StationCatalogue {
 
     /// Add a station's data to this catalogue, assigning it an appropriate unique id.
     fn add(&mut self, name: &str, coordinates: &Coordinates, predictions: &[TidePrediction]) {
-        let id = self.stations.len() as u64;
+        let id = Uuid::new_v4();
         let station = Station {
             name: name.to_owned(),
             coordinates: *coordinates,
