@@ -26,7 +26,7 @@ impl HomePageViewModel {
         let station = stn_catalogue.find_near(&coords.unwrap_or_else(|| POINT_ATKINSON));
         let predictions = stn_catalogue.predictions_for_station(&station);
         let prediction_pair =
-            predictions.and_then(|preds| compute::find::nearest_pair(preds, current_time));
+            predictions.and_then(|preds| compute::find::nearest_pair(&preds, current_time));
         HomePageViewModel {
             current_time,
             current_location: *coords,

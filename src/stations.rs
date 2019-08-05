@@ -14,8 +14,8 @@ pub struct Station {
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct PredictionWithId {
-    pub pred: TidePrediction,
     pub station_id: Uuid,
+    pub prediction: TidePrediction,
 }
 
 static ATKINSON_PREDICTIONS_SRC: &'static str = include_str!("atkinson_predictions.json");
@@ -28,7 +28,7 @@ fn parse_predictions(src: &str) -> Vec<TidePrediction> {
 /// Queryable repository of stations.
 pub struct StationCatalogue {
     stations: Vec<Station>,
-    station_predictions: HashMap<Uuid, Vec<TidePrediction>>,
+    station_predictions: HashMap<Uuid, Vec<PredictionWithId>>,
 }
 
 impl StationCatalogue {
@@ -58,8 +58,8 @@ impl StationCatalogue {
         let port_lavaca_predictions = parse_predictions(LAVACA_PREDICTIONS_SRC);
 
         let station_predictions = [
-            (point_atkinson.id, point_atkinson_predictions),
-            (port_lavaca.id, port_lavaca_predictions),
+            (point_atkinson.id, predictions_with_id(point_atkinson.id ,point_atkinson_predictions)),
+            (port_lavaca.id, predictions_with_id(port_lavaca.id, port_lavaca_predictions)),
         ]
         .iter()
         .cloned()
@@ -94,14 +94,18 @@ impl StationCatalogue {
             id,
         };
         self.stations.push(station);
-        self.station_predictions.insert(id, predictions.to_vec());
+        self.station_predictions.insert(id, predictions_with_id(id, predictions.to_vec()));
     }
 
-    pub fn predictions_for_station(&self, station: &Station) -> Option<&[TidePrediction]> {
+    pub fn predictions_for_station(&self, station: &Station) -> Option<Vec<TidePrediction>> {
         self.station_predictions
             .get(&station.id)
-            .map(|x| x.as_slice())
+            .map(|x| x.iter().map(|p| p.prediction)).map(|x| x.collect::<Vec<_>>())
     }
+}
+
+fn predictions_with_id(station_id: Uuid, predictions: Vec<TidePrediction>) -> Vec<PredictionWithId> {
+    predictions.into_iter().map(|prediction| PredictionWithId { station_id, prediction }).collect()
 }
 
 #[cfg(test)]
