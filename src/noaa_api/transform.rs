@@ -1,18 +1,14 @@
 use chrono::prelude::*;
 use uom::si::f64::*;
 use uom::si::length::foot;
-use uuid::Uuid;
 
 use crate::model::TidePrediction;
-use crate::noaa_api::{HighLowAndMetadata, HighLowValues, Item, TideData};
-use crate::stations::PredictionWithId;
+use crate::noaa_api::HighLowAndMetadata;
+use crate::stations::{PredictionWithId, Station};
 
 pub fn extract_predictions(m: &HighLowAndMetadata) -> Vec<PredictionWithId> {
-    let name_bytes = format!("{}{}", &m.station_name, &m.station_id).into_bytes();
-    let station_id = Uuid::new_v5(&Uuid::NAMESPACE_OID, &name_bytes);
-
-    m.values
-        .values
+    let station_id = Station::generate_id(&m.station_name, &m.station_id);
+    m.values .values
         .iter()
         .flat_map(|item| {
             item.data.iter().map(move |data| PredictionWithId {
@@ -44,6 +40,7 @@ mod test {
 
     #[test]
     fn it_should_produce_matching_station_ids() {
+        use crate::noaa_api::{HighLowValues, Item, TideData};
         let m = HighLowAndMetadata {
             station_id: 1000,
             station_name: "fake station".to_string(),
