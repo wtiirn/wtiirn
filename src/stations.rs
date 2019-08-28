@@ -1,10 +1,10 @@
 use crate::model::{Coordinates, TidePrediction};
 use serde::Deserialize;
-use uuid::Uuid;
 use std::error::Error;
 use std::fs::File;
 use std::io::prelude::*;
 use std::path::Path;
+use uuid::Uuid;
 
 /// The generic information about a tide station, divorced
 /// from meta-data like "how are the tides predicted" and
@@ -29,8 +29,10 @@ pub struct PredictionWithId {
     pub prediction: TidePrediction,
 }
 
-static ATKINSON_PREDICTIONS_SRC: &'static str = include_str!("../data/predictions/atkinson_predictions.json");
-static LAVACA_PREDICTIONS_SRC: &'static str = include_str!("../data/predictions/lavaca_predictions.json");
+static ATKINSON_PREDICTIONS_SRC: &'static str =
+    include_str!("../data/predictions/atkinson_predictions.json");
+static LAVACA_PREDICTIONS_SRC: &'static str =
+    include_str!("../data/predictions/lavaca_predictions.json");
 
 fn parse_predictions(src: &str) -> Vec<PredictionWithId> {
     serde_json::from_str(src).expect("Failure to parse included predictions.json")
@@ -71,12 +73,16 @@ impl StationCatalogue {
             id: Uuid::parse_str("946cc0d2-c976-423c-bb1e-89a400fbf8c1").expect("uuid fail"),
         };
 
-        let point_atkinson_predictions = load_predictions_from_json_at_path("data/predictions/atkinson_predictions.json")
-            .expect("failed to load atkinson predictions from file");
-        let port_lavaca_predictions = load_predictions_from_json_at_path("data/predictions/lavaca_predictions.json")
-            .expect("failed to load lavaca predictions from file");
+        let point_atkinson_predictions =
+            load_predictions_from_json_at_path("data/predictions/atkinson_predictions.json")
+                .expect("failed to load atkinson predictions from file");
+        let port_lavaca_predictions =
+            load_predictions_from_json_at_path("data/predictions/lavaca_predictions.json")
+                .expect("failed to load lavaca predictions from file");
 
-        let predictions = point_atkinson_predictions.into_iter().chain(port_lavaca_predictions.into_iter())
+        let predictions = point_atkinson_predictions
+            .into_iter()
+            .chain(port_lavaca_predictions.into_iter())
             .collect();
 
         StationCatalogue {
@@ -123,7 +129,9 @@ impl StationCatalogue {
     }
 }
 
-fn load_predictions_from_json_at_path(path_str: &str) -> Result<Vec<PredictionWithId>, Box<dyn Error>> {
+fn load_predictions_from_json_at_path(
+    path_str: &str,
+) -> Result<Vec<PredictionWithId>, Box<dyn Error>> {
     let path = Path::new(path_str);
     let mut string = String::new();
     let mut file = File::open(&path)?;
