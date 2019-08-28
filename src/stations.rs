@@ -29,8 +29,8 @@ pub struct PredictionWithId {
     pub prediction: TidePrediction,
 }
 
-static ATKINSON_PREDICTIONS_SRC: &'static str = include_str!("../public/atkinson_predictions.json");
-static LAVACA_PREDICTIONS_SRC: &'static str = include_str!("../public/lavaca_predictions.json");
+static ATKINSON_PREDICTIONS_SRC: &'static str = include_str!("../data/predictions/atkinson_predictions.json");
+static LAVACA_PREDICTIONS_SRC: &'static str = include_str!("../data/predictions/lavaca_predictions.json");
 
 fn parse_predictions(src: &str) -> Vec<PredictionWithId> {
     serde_json::from_str(src).expect("Failure to parse included predictions.json")
@@ -71,9 +71,9 @@ impl StationCatalogue {
             id: Uuid::parse_str("946cc0d2-c976-423c-bb1e-89a400fbf8c1").expect("uuid fail"),
         };
 
-        let point_atkinson_predictions = load_predictions_from_json_at_path("public/atkinson_predictions.json")
+        let point_atkinson_predictions = load_predictions_from_json_at_path("data/predictions/atkinson_predictions.json")
             .expect("failed to load atkinson predictions from file");
-        let port_lavaca_predictions = load_predictions_from_json_at_path("public/lavaca_predictions.json")
+        let port_lavaca_predictions = load_predictions_from_json_at_path("data/predictions/lavaca_predictions.json")
             .expect("failed to load lavaca predictions from file");
 
         let predictions = point_atkinson_predictions.into_iter().chain(port_lavaca_predictions.into_iter())
