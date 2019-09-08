@@ -23,7 +23,7 @@ impl fmt::Display for TidePrediction {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "{} meters above the datum at {}",
+            "{} meters above the <a href='https://en.wikipedia.org/wiki/Chart_datum'>datum</a> at {}",
             self.tide.get::<meter>(),
             self.time.format(TIME_FORMAT)
         )
