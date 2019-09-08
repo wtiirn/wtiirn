@@ -1,7 +1,7 @@
 use crate::model::{Coordinates, TidePrediction};
 use serde::Deserialize;
 use std::error::Error;
-use std::fs::File;
+use std::fs::{self, File};
 use std::io::prelude::*;
 use std::path::Path;
 use uuid::Uuid;
@@ -9,7 +9,7 @@ use uuid::Uuid;
 /// The generic information about a tide station, divorced
 /// from meta-data like "how are the tides predicted" and
 /// "who's responsible for this station".
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, PartialEq, Clone, Deserialize)]
 pub struct Station {
     pub name: String,
     pub coordinates: Coordinates,
@@ -24,24 +24,15 @@ impl Station {
 }
 
 #[derive(Debug, PartialEq, Clone, Deserialize)]
-pub struct PredictionWithId {
+pub struct PredictionsWithId {
     pub station_id: Uuid,
-    pub prediction: TidePrediction,
-}
-
-static ATKINSON_PREDICTIONS_SRC: &'static str =
-    include_str!("../data/predictions/atkinson_predictions.json");
-static LAVACA_PREDICTIONS_SRC: &'static str =
-    include_str!("../data/predictions/lavaca_predictions.json");
-
-fn parse_predictions(src: &str) -> Vec<PredictionWithId> {
-    serde_json::from_str(src).expect("Failure to parse included predictions.json")
+    pub predictions: Vec<TidePrediction>,
 }
 
 /// Queryable repository of stations.
 pub struct StationCatalogue {
     stations: Vec<Station>,
-    predictions: Vec<PredictionWithId>,
+    predictions: Vec<PredictionsWithId>,
 }
 
 impl StationCatalogue {
@@ -51,42 +42,18 @@ impl StationCatalogue {
             predictions: vec![],
         }
     }
+
     /// Initialize a catalogue from a suitable data source.
     /// Panics if there isn't at least one tide station in
     /// the initialized catalogue.
     pub fn load() -> Self {
-        let point_atkinson = Station {
-            name: "Point Atkinson".to_owned(),
-            coordinates: Coordinates {
-                lat: 49.336,
-                lon: -123.262,
-            },
-            id: Uuid::parse_str("0dd4be22-22f2-4d3c-9950-54c8a3d52b12").expect("uuid fail"),
-        };
-
-        let port_lavaca = Station {
-            name: "Port Lavaca".to_string(),
-            coordinates: Coordinates {
-                lat: 28.6406,
-                lon: -96.6098,
-            },
-            id: Uuid::parse_str("946cc0d2-c976-423c-bb1e-89a400fbf8c1").expect("uuid fail"),
-        };
-
-        let point_atkinson_predictions =
-            load_predictions_from_json_at_path("data/predictions/atkinson_predictions.json")
-                .expect("failed to load atkinson predictions from file");
-        let port_lavaca_predictions =
-            load_predictions_from_json_at_path("data/predictions/lavaca_predictions.json")
-                .expect("failed to load lavaca predictions from file");
-
-        let predictions = point_atkinson_predictions
-            .into_iter()
-            .chain(port_lavaca_predictions.into_iter())
-            .collect();
+        let stations =
+            load_stations_from_dir(Path::new("data/stations")).expect("failed to load stations");
+        let predictions = load_predictions_from_dir(Path::new("data/predictions"))
+            .expect("failed to load predcitions");
 
         StationCatalogue {
-            stations: vec![point_atkinson, port_lavaca],
+            stations,
             predictions,
         }
     }
@@ -114,8 +81,10 @@ impl StationCatalogue {
             id,
         };
         self.stations.push(station);
-        self.predictions
-            .append(&mut predictions_with_id(id, predictions.to_vec()));
+        self.predictions.push(PredictionsWithId {
+            station_id: id,
+            predictions: predictions.to_vec(),
+        });
     }
 
     pub fn predictions_for_station(&self, station: &Station) -> Option<Vec<TidePrediction>> {
@@ -123,33 +92,82 @@ impl StationCatalogue {
             self.predictions
                 .iter()
                 .filter(|x| x.station_id == station.id)
-                .map(|x| x.prediction)
+                .flat_map(|x| x.predictions.clone())
                 .collect(),
         )
     }
 }
 
-fn load_predictions_from_json_at_path(
-    path_str: &str,
-) -> Result<Vec<PredictionWithId>, Box<dyn Error>> {
-    let path = Path::new(path_str);
-    let mut string = String::new();
-    let mut file = File::open(&path)?;
-    file.read_to_string(&mut string)?;
+fn load_stations_from_dir(path: &Path) -> Result<Vec<Station>, Box<dyn Error>> {
+    Ok(fs::read_dir(path)?
+        .flat_map(|file| load_stations_from_json(&file?.path()))
+        .flat_map(|item| item)
+        .collect())
+}
+
+fn load_stations_from_json(path: &Path) -> Result<Vec<Station>, Box<dyn Error>> {
+    let string = read_file(path)?;
+    Ok(parse_stations(&string))
+}
+
+fn load_predictions_from_dir(path: &Path) -> Result<Vec<PredictionsWithId>, Box<dyn Error>> {
+    Ok(fs::read_dir(path)?
+        .flat_map(|file| load_predictions_from_json(&file?.path()))
+        .flat_map(|item| item)
+        .collect())
+}
+
+fn load_predictions_from_json(path: &Path) -> Result<Vec<PredictionsWithId>, Box<dyn Error>> {
+    let string = read_file(&path)?;
     Ok(parse_predictions(&string))
 }
 
-fn predictions_with_id(
-    station_id: Uuid,
-    predictions: Vec<TidePrediction>,
-) -> Vec<PredictionWithId> {
-    predictions
+fn read_file(path: &Path) -> Result<String, Box<dyn Error>> {
+    let mut string = String::new();
+    let mut file = File::open(&path)?;
+    file.read_to_string(&mut string)?;
+    Ok(string)
+}
+
+fn parse_predictions(src: &str) -> Vec<PredictionsWithId> {
+    parse_vec_of_values(src)
+        .unwrap_or_else(|e| {
+            println!("Unable to parse string to vec of Values: {:?}", e);
+            vec![]
+        })
         .into_iter()
-        .map(|prediction| PredictionWithId {
-            station_id,
-            prediction,
+        .filter_map(|v| {
+            let preds = serde_json::from_value(v);
+            if !preds.is_ok() {
+                println!(
+                    "Could not parse Value as PredictionsWithId instance: {:?}",
+                    preds
+                );
+            }
+            preds.ok()
         })
         .collect()
+}
+
+fn parse_stations(src: &str) -> Vec<Station> {
+    parse_vec_of_values(src)
+        .unwrap_or_else(|e| {
+            println!("Unable to parse string to vec of Values: {:?}", e);
+            vec![]
+        })
+        .into_iter()
+        .filter_map(|v| {
+            let station = serde_json::from_value(v);
+            if !station.is_ok() {
+                println!("Could not parse Value as Station instance: {:?}", station);
+            }
+            station.ok()
+        })
+        .collect()
+}
+
+fn parse_vec_of_values(src: &str) -> Result<Vec<serde_json::Value>, serde_json::error::Error> {
+    serde_json::from_str(src)
 }
 
 #[cfg(test)]
@@ -230,10 +248,40 @@ mod test {
         );
     }
 
-    #[test]
-    fn test_parsing_predictions_file() {
-        parse_predictions(ATKINSON_PREDICTIONS_SRC);
-        parse_predictions(LAVACA_PREDICTIONS_SRC);
+    mod parsing {
+        use super::*;
+        #[test]
+        fn it_should_handle_broken_files() {
+            let path = Path::new("test_data/stations/broken_files");
+            let stations = load_stations_from_dir(&path);
+
+            assert_eq!(stations.is_ok(), true);
+            let stations = stations.unwrap();
+            assert_eq!(stations.len(), 1);
+            assert_eq!(stations[0].name, "Point Atkinson");
+        }
+
+        #[test]
+        fn it_should_load_the_canadian_stations_file_without_error() {
+            let path = Path::new("test_data/stations/good");
+            let stations = load_stations_from_dir(&path);
+
+            assert_eq!(stations.is_ok(), true);
+            let stations = stations.unwrap();
+            assert_eq!(stations.len(), 873);
+        }
+
+        #[test]
+        fn it_should_load_known_good_predictions_without_error() {
+            let path = Path::new("test_data/predictions/good");
+            let preds = load_predictions_from_dir(path);
+
+            assert_eq!(preds.is_ok(), true);
+            let preds = preds.unwrap();
+            assert_eq!(preds.len(), 1);
+            assert_eq!(preds[0].predictions.len(), 495);
+        }
+
     }
 
     mod id_generation {

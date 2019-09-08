@@ -4,21 +4,26 @@ use uom::si::length::foot;
 
 use crate::model::TidePrediction;
 use crate::noaa_api::HighLowAndMetadata;
-use crate::stations::{PredictionWithId, Station};
+use crate::stations::{PredictionsWithId, Station};
 
-pub fn extract_predictions(m: &HighLowAndMetadata) -> Vec<PredictionWithId> {
+pub fn extract_predictions(m: &HighLowAndMetadata) -> Vec<PredictionsWithId> {
     let station_id = Station::generate_id(&m.station_name, m.station_id);
     m.values
         .values
         .iter()
-        .flat_map(|item| {
-            item.data.iter().map(move |data| PredictionWithId {
-                station_id,
-                prediction: TidePrediction {
+        .map(|item| {
+            let predictions = item
+                .data
+                .iter()
+                .map(move |data| TidePrediction {
                     tide: Length::new::<foot>(data.pred.into()),
                     time: parse_date_time(&item.date, &data.time),
-                },
-            })
+                })
+                .collect();
+            PredictionsWithId {
+                station_id,
+                predictions,
+            }
         })
         .collect()
 }
@@ -63,10 +68,10 @@ mod test {
         let extracted = extract_predictions(&m);
 
         assert_eq!(extracted.len(), 1);
-        assert_eq!(extracted[0].prediction.tide, Length::new::<foot>(1.0));
+        assert_eq!(extracted[0].predictions[0].tide, Length::new::<foot>(1.0));
         let utc = FixedOffset::west(0);
         assert_eq!(
-            extracted[0].prediction.time,
+            extracted[0].predictions[0].time,
             utc.ymd(2019, 01, 01).and_hms(12, 00, 00)
         );
     }

@@ -72,7 +72,7 @@ fn detail(n: TidePrediction, p: TidePrediction) -> String {
     }
 }
 
-#[derive(Debug, PartialEq, Copy, Clone)]
+#[derive(Debug, PartialEq, Copy, Clone, Deserialize)]
 pub struct Coordinates {
     pub lat: f64,
     pub lon: f64,
