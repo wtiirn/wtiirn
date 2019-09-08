@@ -12,7 +12,7 @@ static POINT_ATKINSON: Coordinates = Coordinates {
 };
 
 pub struct HomePageViewModel {
-    current_time: DateTime<FixedOffset>,
+    _current_time: DateTime<FixedOffset>,
     current_location: Option<Coordinates>,
     prediction_pair: Option<TidePredictionPair>,
     station: Station,
@@ -22,13 +22,13 @@ impl HomePageViewModel {
     /// Collect the information necessary for rendering the home page based on a request's
     /// location and the station catalogue that was loaded at startup.
     pub fn new(stn_catalogue: &StationCatalogue, coords: &Option<Coordinates>) -> Self {
-        let current_time = now_in_pst();
+        let _current_time = now_in_pst();
         let station = stn_catalogue.find_near(&coords.unwrap_or_else(|| POINT_ATKINSON));
         let predictions = stn_catalogue.predictions_for_station(&station);
         let prediction_pair =
-            predictions.and_then(|preds| compute::find::nearest_pair(preds, current_time));
+            predictions.and_then(|preds| compute::find::nearest_pair(&preds, _current_time));
         HomePageViewModel {
-            current_time,
+            _current_time,
             current_location: *coords,
             prediction_pair,
             station: station.clone(),
