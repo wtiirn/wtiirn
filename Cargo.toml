@@ -23,7 +23,3 @@ path = "src/lib.rs"
 [[bin]]
 name = "wtiirn"
 path = "src/main.rs"
-
-[[bin]]
-name = "noaa"
-path = "src/bin/noaa.rs"
