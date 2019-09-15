@@ -47,10 +47,13 @@ impl StationCatalogue {
     /// Panics if there isn't at least one tide station in
     /// the initialized catalogue.
     pub fn load() -> Self {
+        println!("Initializing Station Catalogue");
         let stations =
             load_stations_from_dir(Path::new("data/stations")).expect("failed to load stations");
+        println!("Loaded {} total stations", stations.len());
         let predictions = load_predictions_from_dir(Path::new("data/predictions"))
             .expect("failed to load predcitions");
+        println!("Loaded {} prediction collections", predictions.len());
 
         StationCatalogue {
             stations,
