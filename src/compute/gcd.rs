@@ -8,9 +8,7 @@ pub fn great_circle_distance(p1: &Coordinates, p2: &Coordinates) -> Length {
     let (lat2, lon2) = p2.to_radians();
     let delta_lon = (lon1 - lon2).abs();
     let cos_central = lat1.sin() * lat2.sin() + lat1.cos() * lat2.cos() * delta_lon.cos();
-    println!("cos_central = {}", cos_central);
     let central = check_acos_domain(cos_central).acos();
-    println!("central = {}", central);
     central * earth_radius()
 }
 
