@@ -21,7 +21,7 @@ name = "wtiirn"
 path = "src/lib.rs"
 
 [[bin]]
-name = "server"
+name = "wtiirn"
 path = "src/main.rs"
 
 [[bin]]
