@@ -43,6 +43,17 @@ impl StationCatalogue {
         }
     }
 
+    pub fn test() -> Self {
+        StationCatalogue {
+            stations: vec![Station {
+                name: "Test Station".into(),
+                coordinates: Coordinates { lat: 0.0, lon: 0.0 },
+                id: Uuid::new_v4(),
+            }],
+            predictions: vec![],
+        }
+    }
+
     /// Initialize a catalogue from a suitable data source.
     /// Panics if there isn't at least one tide station in
     /// the initialized catalogue.

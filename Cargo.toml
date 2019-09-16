@@ -15,6 +15,7 @@ serde-xml-rs = "0.3.1"
 itertools = "0.8.0"
 uom = { version = "0.23.1", features = ["use_serde"] }
 uuid = { version = "0.7.4", features = ["v4", "v5", "serde"] }
+http = "0.1.18"
 
 [lib]
 name = "wtiirn"
