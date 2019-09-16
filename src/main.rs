@@ -1,4 +1,3 @@
-use std::convert::TryInto;
 use std::env;
 use wtiirn::{pages, stations};
 
@@ -24,7 +23,8 @@ fn routes(catalogue: stations::StationCatalogue) -> Handler {
     Box::new(
         move |request: Request<Vec<u8>>, mut response: ResponseBuilder| {
             println!("Request received. {} {}", request.method(), request.uri());
-            let coords = request.uri().query().try_into().ok();
+            let query = request.uri().query().unwrap_or_else(|| "");
+            let params = serde_urlencoded::from_str::<pages::HomePageParams>(query).ok();
 
             match (
                 request.method(),
@@ -41,7 +41,7 @@ fn routes(catalogue: stations::StationCatalogue) -> Handler {
                     Ok(response.body(vec![])?)
                 }
                 (&Method::GET, "/", _) => Ok(response.body(
-                    pages::home_page(pages::HomePageViewModel::new(&catalogue, &coords))
+                    pages::home_page(pages::HomePageViewModel::new(&catalogue, &params))
                         .as_bytes()
                         .to_vec(),
                 )?),

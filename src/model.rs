@@ -1,6 +1,5 @@
 use chrono::prelude::*;
 use serde::Deserialize;
-use std::convert::TryFrom;
 use std::fmt;
 use uom::si::f64::*;
 use uom::si::length::meter;
@@ -16,6 +15,10 @@ pub struct TidePrediction {
 impl TidePrediction {
     pub fn is_before(&self, time: DateTime<FixedOffset>) -> bool {
         self.time < time
+    }
+
+    pub fn set_offset(&mut self, offset: &FixedOffset) {
+        self.time = self.time.with_timezone(offset);
     }
 }
 
@@ -36,16 +39,6 @@ pub struct TidePredictionPair {
     pub prev: TidePrediction,
 }
 
-impl fmt::Display for TidePredictionPair {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        print_pair(f, self.next, self.prev)
-    }
-}
-
-fn print_pair(f: &mut fmt::Formatter, n: TidePrediction, p: TidePrediction) -> fmt::Result {
-    write!(f, "{}", headline(n, p) + " " + &detail(n, p))
-}
-
 impl TidePredictionPair {
     pub fn headline(&self) -> String {
         headline(self.next, self.prev)
@@ -53,6 +46,12 @@ impl TidePredictionPair {
 
     pub fn detail(&self) -> String {
         detail(self.next, self.prev)
+    }
+
+    pub fn set_offset(&mut self, offset: &FixedOffset) -> Self {
+        self.next.set_offset(offset);
+        self.prev.set_offset(offset);
+        *self
     }
 }
 
@@ -85,55 +84,5 @@ impl Coordinates {
             self.lat * std::f64::consts::PI / 180.0,
             self.lon * std::f64::consts::PI / 180.0,
         )
-    }
-}
-
-impl TryFrom<Option<&str>> for Coordinates {
-    type Error = ();
-    fn try_from(st: Option<&str>) -> Result<Coordinates, ()> {
-        match st {
-            Some(s) => Coordinates::try_from(s),
-            _ => Err(()),
-        }
-    }
-}
-
-impl TryFrom<&str> for Coordinates {
-    type Error = ();
-    fn try_from(s: &str) -> Result<Coordinates, ()> {
-        let mut maybe_lat = None;
-        let mut maybe_lon = None;
-        let tuples = s
-            .split('&')
-            .map(|x| (x.split('=').next(), x.split('=').last()));
-
-        for (name, value) in tuples {
-            match (name, value) {
-                (Some(n), Some(v)) if n == "lat" => maybe_lat = v.parse::<f64>().ok(),
-                (Some(n), Some(v)) if n == "lon" => maybe_lon = v.parse::<f64>().ok(),
-                _ => (),
-            }
-        }
-
-        match (maybe_lat, maybe_lon) {
-            (Some(lat), Some(lon)) => Ok(Coordinates { lat, lon }),
-            _ => Err(()),
-        }
-    }
-}
-
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    #[test]
-    fn parse_from_a_string() {
-        assert_eq!(
-            Coordinates::try_from(Some("lat=123.456&lon=54.321")),
-            Ok(Coordinates {
-                lat: 123.456,
-                lon: 54.321
-            })
-        );
     }
 }
