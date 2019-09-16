@@ -1,9 +1,10 @@
 use chrono::prelude::*;
+use serde::Deserialize;
 use uom::si::f64::*;
 use uom::si::length::{kilometer, meter};
 
 use crate::compute;
-use crate::model::{Coordinates, TidePredictionPair};
+use crate::model::{Coordinates, TidePredictionPair, TIME_FORMAT};
 use crate::stations::{Station, StationCatalogue};
 
 static POINT_ATKINSON: Coordinates = Coordinates {
@@ -12,24 +13,47 @@ static POINT_ATKINSON: Coordinates = Coordinates {
 };
 
 pub struct HomePageViewModel {
-    _current_time: DateTime<FixedOffset>,
+    current_time: DateTime<FixedOffset>,
     current_location: Option<Coordinates>,
     prediction_pair: Option<TidePredictionPair>,
     station: Station,
 }
 
+#[derive(Deserialize, Clone, Copy, Debug)]
+pub struct HomePageParams {
+    lat: Option<f64>,
+    lon: Option<f64>,
+    #[serde(alias = "offset")]
+    offset_in_minutes: Option<i32>,
+}
+
+impl HomePageParams {
+    fn get_coords(&self) -> Option<Coordinates> {
+        match (self.lat, self.lon) {
+            (Some(lat), Some(lon)) => Some(Coordinates { lat, lon }),
+            _ => None,
+        }
+    }
+}
+
 impl HomePageViewModel {
     /// Collect the information necessary for rendering the home page based on a request's
     /// location and the station catalogue that was loaded at startup.
-    pub fn new(stn_catalogue: &StationCatalogue, coords: &Option<Coordinates>) -> Self {
-        let _current_time = now_in_pst();
+    pub fn new(stn_catalogue: &StationCatalogue, params: &Option<HomePageParams>) -> Self {
+        let offset_in_minutes = params.and_then(|x| x.offset_in_minutes).unwrap_or(8 * 60);
+        let offset = FixedOffset::west(offset_in_minutes * 60);
+        let current_time = Local::now().with_timezone(&offset);
+
+        let coords = params.and_then(|x| x.get_coords());
         let station = stn_catalogue.find_near(&coords.unwrap_or_else(|| POINT_ATKINSON));
         let predictions = stn_catalogue.predictions_for_station(&station);
-        let prediction_pair =
-            predictions.and_then(|preds| compute::find::nearest_pair(&preds, _current_time));
+        let prediction_pair = predictions
+            .and_then(|preds| compute::find::nearest_pair(&preds, current_time))
+            .map(|mut x| x.set_offset(&offset));
+
         HomePageViewModel {
-            _current_time,
-            current_location: *coords,
+            current_time,
+            current_location: coords,
             prediction_pair,
             station: station.clone(),
         }
@@ -82,6 +106,9 @@ pub fn home_page(vm: HomePageViewModel) -> String {
             <body>
                 <div class='container'>
                     <div class='content'>
+                        <div class='time'>
+                            {}
+                        </div>
                         <div class='title'>
                             <h1>What Tide Is It Right Now?!</h1>
                         </div>
@@ -97,15 +124,11 @@ pub fn home_page(vm: HomePageViewModel) -> String {
                 <script src='getlocation.js'></script>
             </body>
         </html>",
+        vm.current_time.format(TIME_FORMAT),
         vm.headline(),
         vm.detail(),
         vm.station_info()
     )
-}
-
-fn now_in_pst() -> DateTime<FixedOffset> {
-    let pst = FixedOffset::west(8 * 3600);
-    Local::now().with_timezone(&pst)
 }
 
 pub fn not_found_page() -> String {
