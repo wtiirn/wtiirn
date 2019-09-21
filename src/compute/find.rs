@@ -120,7 +120,10 @@ mod test {
                 tide: Length::new::<meter>(2.0),
                 time: time2,
             };
-            let pair = TidePredictionPair {prev: tide1, next: tide2};
+            let pair = TidePredictionPair {
+                prev: tide1,
+                next: tide2,
+            };
             let cases = vec![
                 (15, 1.1464466094067262),
                 (30, 1.5),
@@ -139,7 +142,10 @@ mod test {
                 tide: Length::new::<meter>(0.0),
                 time: time2,
             };
-            let pair = TidePredictionPair {prev: tide1, next: tide2};
+            let pair = TidePredictionPair {
+                prev: tide1,
+                next: tide2,
+            };
             let cases = vec![(60, 8.5355), (120, 5.0), (180, 1.4644999999999992)];
             check_cases(&pair, &cases);
         }

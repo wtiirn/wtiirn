@@ -1,7 +1,8 @@
 use chrono::prelude::*;
+use chrono_humanize::HumanTime;
 use serde::Deserialize;
 use uom::si::f64::*;
-use uom::si::length::{kilometer, meter};
+use uom::si::length::{centimeter, kilometer, meter};
 
 use crate::compute;
 use crate::model::{Coordinates, TidePredictionPair, TIME_FORMAT};
@@ -11,13 +12,6 @@ static POINT_ATKINSON: Coordinates = Coordinates {
     lat: 49.3299,
     lon: -123.2650,
 };
-
-pub struct HomePageViewModel {
-    current_time: DateTime<FixedOffset>,
-    current_location: Option<Coordinates>,
-    prediction_pair: Option<TidePredictionPair>,
-    station: Station,
-}
 
 #[derive(Deserialize, Clone, Copy, Debug)]
 pub struct HomePageParams {
@@ -34,6 +28,13 @@ impl HomePageParams {
             _ => None,
         }
     }
+}
+
+pub struct HomePageViewModel {
+    current_time: DateTime<FixedOffset>,
+    current_location: Option<Coordinates>,
+    prediction_pair: Option<TidePredictionPair>,
+    station: Station,
 }
 
 impl HomePageViewModel {
@@ -68,7 +69,7 @@ impl HomePageViewModel {
 
     fn detail(&self) -> String {
         match self.prediction_pair {
-            Some(p) => p.detail(),
+            Some(p) => p.as_table(),
             _ => "".into(),
         }
     }
@@ -94,6 +95,31 @@ impl HomePageViewModel {
         }
         info
     }
+
+    /// Constructs a natural language sentence explaining the current tide status, include direction,
+    /// amount, and timing.
+    fn current_level(&self) -> String {
+        if let Some(pair) = self.prediction_pair {
+            let current_level = compute::find::approximate_current_level(&pair, &self.current_time);
+            let change = pair.next.tide - current_level;
+            let human_time = HumanTime::from(pair.next.time);
+            if pair.tide_is_coming_in() {
+                format!(
+                    "The tide will go up {:.0} centimeters until High Tide {}",
+                    change.get::<centimeter>().abs(),
+                    human_time
+                )
+            } else {
+                format!(
+                    "The tide will go down {:.0} centimeters until Low Tide {}",
+                    change.get::<centimeter>().abs(),
+                    human_time
+                )
+            }
+        } else {
+            format!("Can't calculate current tide level")
+        }
+    }
 }
 
 pub fn home_page(vm: HomePageViewModel) -> String {
@@ -115,8 +141,11 @@ pub fn home_page(vm: HomePageViewModel) -> String {
                         <div class='headline'>
                             <h2>{}</h2>
                         </div>
+                        <div class='current'>
+                        <p>{}</p>
+                        </div>
                         <div class='detail'>
-                            <p>{}</p>
+                            {}
                             <p>{}</p>
                         </div>
                     </div>
@@ -126,8 +155,9 @@ pub fn home_page(vm: HomePageViewModel) -> String {
         </html>",
         vm.current_time.format(TIME_FORMAT),
         vm.headline(),
+        vm.current_level(),
         vm.detail(),
-        vm.station_info()
+        vm.station_info(),
     )
 }
 

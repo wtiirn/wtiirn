@@ -42,3 +42,22 @@ body {
   justify-content: flex-end;
 }
 
+table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin: auto;
+  border: 1px solid black;
+  text-align: center;
+}
+
+table td, thead th {
+  padding: 10px;
+}
+
+table tr {
+  border-bottom: 1px solid black;
+}
+
+thead tr th {
+  border-bottom: 1px solid black;
+}
