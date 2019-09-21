@@ -26,11 +26,11 @@ pub fn nearest_pair(
 /// and that `last_prediction.time <= current_time <= next_prediction.time`.
 /// If this assumption doesn't hold, the result probably won't be meaningful.
 pub fn approximate_current_level(
-    last_prediction: &TidePrediction,
-    next_prediction: &TidePrediction,
+    predictions: &TidePredictionPair,
     current_time: &DateTime<FixedOffset>,
 ) -> Length {
-    use std::f64;
+    let last_prediction = predictions.prev;
+    let next_prediction = predictions.next;
 
     let f0: f64 = last_prediction.tide.get::<meter>();
     let f1: f64 = next_prediction.tide.get::<meter>();
@@ -38,7 +38,7 @@ pub fn approximate_current_level(
     let t1 = next_prediction.time.timestamp() as f64;
     let t = current_time.timestamp() as f64;
 
-    let phase = f64::consts::PI * (t - t0) / (t1 - t0);
+    let phase = std::f64::consts::PI * (t - t0) / (t1 - t0);
     let l = 0.5 * (f0 - f1) * (1.0 + phase.cos()) + f1;
     Length::new::<meter>(l)
 }
@@ -46,8 +46,6 @@ pub fn approximate_current_level(
 #[cfg(test)]
 mod test {
     use super::*;
-    use uom::si::f64::*;
-    use uom::si::length::meter;
 
     #[test]
     fn it_finds_the_nearest_pair() {
@@ -99,15 +97,15 @@ mod test {
             assert!(diff < ACCEPTABLE_ERROR);
         }
 
-        fn check_cases(p1: &TidePrediction, p2: &TidePrediction, cases: &Vec<(i64, f64)>) {
+        fn check_cases(p: &TidePredictionPair, cases: &Vec<(i64, f64)>) {
             use chrono::Duration;
             // Interpolation matches predictions at their times.
-            acceptably_close(&approximate_current_level(p1, p2, &p1.time), &p1.tide);
-            acceptably_close(&approximate_current_level(p1, p2, &p2.time), &p2.tide);
+            acceptably_close(&approximate_current_level(p, &p.prev.time), &p.prev.tide);
+            acceptably_close(&approximate_current_level(p, &p.next.time), &p.next.tide);
             for (mins, lvl) in cases {
-                let t = p1.time + Duration::minutes(*mins);
+                let t = p.prev.time + Duration::minutes(*mins);
                 let l = Length::new::<meter>(*lvl);
-                acceptably_close(&approximate_current_level(p1, p2, &t), &l);
+                acceptably_close(&approximate_current_level(p, &t), &l);
             }
         }
 
@@ -122,12 +120,13 @@ mod test {
                 tide: Length::new::<meter>(2.0),
                 time: time2,
             };
+            let pair = TidePredictionPair {prev: tide1, next: tide2};
             let cases = vec![
                 (15, 1.1464466094067262),
                 (30, 1.5),
                 (45, 1.8535533905932737),
             ];
-            check_cases(&tide1, &tide2, &cases);
+            check_cases(&pair, &cases);
         }
         {
             let time1 = pst.ymd(2015, 11, 30).and_hms(22, 0, 0);
@@ -140,8 +139,9 @@ mod test {
                 tide: Length::new::<meter>(0.0),
                 time: time2,
             };
+            let pair = TidePredictionPair {prev: tide1, next: tide2};
             let cases = vec![(60, 8.5355), (120, 5.0), (180, 1.4644999999999992)];
-            check_cases(&tide1, &tide2, &cases);
+            check_cases(&pair, &cases);
         }
     }
 }
