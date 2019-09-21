@@ -20,6 +20,14 @@ impl TidePrediction {
     pub fn set_offset(&mut self, offset: &FixedOffset) {
         self.time = self.time.with_timezone(offset);
     }
+
+    pub fn as_table_row(&self) -> String {
+        format!(
+            "<td>{}</td><td>{}</td>",
+            self.tide.get::<meter>(),
+            self.time.format(TIME_FORMAT)
+        )
+    }
 }
 
 impl fmt::Display for TidePrediction {
@@ -41,11 +49,57 @@ pub struct TidePredictionPair {
 
 impl TidePredictionPair {
     pub fn headline(&self) -> String {
-        headline(self.next, self.prev)
+        if self.tide_is_coming_in() {
+            "The tide is coming in!".into()
+        } else {
+            "The tide is going out!".into()
+        }
     }
 
     pub fn detail(&self) -> String {
-        detail(self.next, self.prev)
+        if self.tide_is_coming_in() {
+            format!(
+                "Low tide was {}, High tide will be {}",
+                self.prev, self.next
+            )
+        } else {
+            format!(
+                "High tide was {}, Low tide will be {}",
+                self.prev, self.next
+            )
+        }
+    }
+
+    fn prev_tide_type(&self) -> &str {
+        if self.tide_is_coming_in() {
+            "Low"
+        } else {
+            "High"
+        }
+    }
+
+    fn next_tide_type(&self) -> &str {
+        if !self.tide_is_coming_in() {
+            "Low"
+        } else {
+            "High"
+        }
+    }
+
+    pub fn as_table(&self) -> String {
+        format!(
+            "<table>
+            <thead>
+            <th></th><th>Tide</th><th><a target='_blank' href='https://en.wikipedia.org/wiki/Chart_datum'>Level</a></th><th>Time</th>
+            </thead>
+            <tr><td>Previous Tide</td><td>{}</td>{}</tr>
+            <tr><td>Next Tide</td><td>{}</td>{}</tr>
+            </table>",
+            self.prev_tide_type(),
+            self.prev.as_table_row(),
+            self.next_tide_type(),
+            self.next.as_table_row(),
+            )
     }
 
     pub fn set_offset(&mut self, offset: &FixedOffset) -> Self {
@@ -53,21 +107,9 @@ impl TidePredictionPair {
         self.prev.set_offset(offset);
         *self
     }
-}
 
-fn headline(n: TidePrediction, p: TidePrediction) -> String {
-    if n.tide > p.tide {
-        "The tide is coming in!".into()
-    } else {
-        "The tide is going out!".into()
-    }
-}
-
-fn detail(n: TidePrediction, p: TidePrediction) -> String {
-    if n.tide > p.tide {
-        format!("Low tide was {}, High tide will be {}", p, n)
-    } else {
-        format!("High tide was {}, Low tide will be {}", p, n)
+    pub fn tide_is_coming_in(&self) -> bool {
+        self.next.tide > self.prev.tide
     }
 }
 
