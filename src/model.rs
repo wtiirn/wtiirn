@@ -4,7 +4,7 @@ use std::fmt;
 use uom::si::f64::*;
 use uom::si::length::meter;
 
-pub static TIME_FORMAT: &str = "%I:%M%P on %a %b %e, %Y";
+pub static TIME_FORMAT: &str = "%_I:%M %p on %a %b %e, %Y";
 
 #[derive(Debug, PartialEq, Clone, Copy, Deserialize)]
 pub struct TidePrediction {
