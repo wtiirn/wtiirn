@@ -77,7 +77,7 @@ impl HomePageViewModel {
     fn distance_from_station(&self) -> Length {
         match self.current_location {
             None => Length::new::<meter>(0.0),
-            Some(c) => compute::gcd::great_circle_distance(&c, &POINT_ATKINSON),
+            Some(c) => compute::gcd::great_circle_distance(&c, &self.station.coordinates),
         }
     }
 
