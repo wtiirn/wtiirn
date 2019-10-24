@@ -23,7 +23,7 @@ impl TidePrediction {
 
     pub fn as_table_row(&self) -> String {
         format!(
-            "<td>{}</td><td>{}</td>",
+            "<td>{}m</td><td>{}</td>",
             self.tide.get::<meter>(),
             self.time.format(TIME_FORMAT)
         )
