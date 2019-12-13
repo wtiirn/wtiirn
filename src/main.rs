@@ -5,12 +5,13 @@ use http::header::{self, HeaderName};
 use simple_server::{Handler, Method, Request, ResponseBuilder, Server, StatusCode};
 
 fn main() {
+    println!("WTIIRN booting up!");
     let host = env::var("WTIIRN_HOST").unwrap_or_else(|_| "127.0.0.1".to_string());
     let port = env::var("PORT").unwrap_or_else(|_| "7878".to_string());
 
     let catalogue = stations::StationCatalogue::load();
 
-    println!("WTIIRN booting up!");
+    println!("Starting Server");
     let server = Server::new(routes(catalogue));
 
     println!("Server listening on port: {}", port);
