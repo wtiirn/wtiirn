@@ -50,7 +50,7 @@ impl HomePageViewModel {
         let predictions = stn_catalogue.predictions_for_station(&station);
         let prediction_pair = predictions
             .and_then(|preds| compute::find::nearest_pair(&preds, current_time))
-            .map(|mut x| x.set_offset(&offset));
+            .map(|mut x| x.set_offset(offset));
 
         HomePageViewModel {
             current_time,
@@ -117,7 +117,7 @@ impl HomePageViewModel {
                 )
             }
         } else {
-            format!("Can't calculate current tide level")
+            "Can't calculate current tide level".to_string()
         }
     }
 

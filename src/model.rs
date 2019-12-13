@@ -17,8 +17,8 @@ impl TidePrediction {
         self.time < time
     }
 
-    pub fn set_offset(&mut self, offset: &FixedOffset) {
-        self.time = self.time.with_timezone(offset);
+    pub fn set_offset(&mut self, offset: FixedOffset) {
+        self.time = self.time.with_timezone(&offset);
     }
 
     pub fn as_table_row(&self) -> String {
@@ -102,7 +102,7 @@ impl TidePredictionPair {
             )
     }
 
-    pub fn set_offset(&mut self, offset: &FixedOffset) -> Self {
+    pub fn set_offset(&mut self, offset: FixedOffset) -> Self {
         self.next.set_offset(offset);
         self.prev.set_offset(offset);
         *self
