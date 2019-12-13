@@ -1,10 +1,10 @@
 use crate::model::{Coordinates, TidePrediction};
 use serde::Deserialize;
-use std::error::Error;
 use std::fs::{self, File};
 use std::io::prelude::*;
 use std::path::Path;
 use uuid::Uuid;
+use failure::Error;
 
 /// The generic information about a tide station, divorced
 /// from meta-data like "how are the tides predicted" and
@@ -113,31 +113,31 @@ impl StationCatalogue {
     }
 }
 
-fn load_stations_from_dir(path: &Path) -> Result<Vec<Station>, Box<dyn Error>> {
+fn load_stations_from_dir(path: &Path) -> Result<Vec<Station>, Error> {
     Ok(fs::read_dir(path)?
         .flat_map(|file| load_stations_from_json(&file?.path()))
         .flat_map(|item| item)
         .collect())
 }
 
-fn load_stations_from_json(path: &Path) -> Result<Vec<Station>, Box<dyn Error>> {
+fn load_stations_from_json(path: &Path) -> Result<Vec<Station>, Error> {
     let string = read_file(path)?;
     Ok(parse_stations(&string))
 }
 
-fn load_predictions_from_dir(path: &Path) -> Result<Vec<PredictionsWithId>, Box<dyn Error>> {
+fn load_predictions_from_dir(path: &Path) -> Result<Vec<PredictionsWithId>, Error> {
     Ok(fs::read_dir(path)?
         .flat_map(|file| load_predictions_from_json(&file?.path()))
         .flat_map(|item| item)
         .collect())
 }
 
-fn load_predictions_from_json(path: &Path) -> Result<Vec<PredictionsWithId>, Box<dyn Error>> {
+fn load_predictions_from_json(path: &Path) -> Result<Vec<PredictionsWithId>, Error> {
     let string = read_file(&path)?;
     Ok(parse_predictions(&string))
 }
 
-fn read_file(path: &Path) -> Result<String, Box<dyn Error>> {
+fn read_file(path: &Path) -> Result<String, Error> {
     let mut string = String::new();
     let mut file = File::open(&path)?;
     file.read_to_string(&mut string)?;
