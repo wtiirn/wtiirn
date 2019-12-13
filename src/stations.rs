@@ -87,6 +87,7 @@ impl StationCatalogue {
     }
 
     /// Add a station's data to this catalogue, assigning it an appropriate unique id.
+    #[allow(dead_code)]
     fn add(&mut self, name: &str, coordinates: &Coordinates, predictions: &[TidePrediction]) {
         let id = Uuid::new_v4();
         let station = Station {
@@ -152,7 +153,7 @@ fn parse_predictions(src: &str) -> Vec<PredictionsWithId> {
         .into_iter()
         .filter_map(|v| {
             let preds = serde_json::from_value(v);
-            if !preds.is_ok() {
+            if preds.is_err() {
                 println!(
                     "Could not parse Value as PredictionsWithId instance: {:?}",
                     preds
@@ -172,7 +173,7 @@ fn parse_stations(src: &str) -> Vec<Station> {
         .into_iter()
         .filter_map(|v| {
             let station = serde_json::from_value(v);
-            if !station.is_ok() {
+            if station.is_err() {
                 println!("Could not parse Value as Station instance: {:?}", station);
             }
             station.ok()
@@ -295,7 +296,6 @@ mod test {
             assert_eq!(preds.len(), 1);
             assert_eq!(preds[0].predictions.len(), 495);
         }
-
     }
 
     mod id_generation {
